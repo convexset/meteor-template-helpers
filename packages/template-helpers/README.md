@@ -2,13 +2,13 @@
 
 This provides simple tools for Blaze such as in-template collection manipulation (may be totally unnecessary since it can be done in helpers, but whatever) and generalized order computations.
 
-See the examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/mildly-horrifying-examples/output.html)].
+See the examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)].
 
 ## Collection Manipulation
 
 ### Object / Array Manipulation
 
-First have a look at the examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/mildly-horrifying-examples/output.html)], which should make things clear.
+First have a look at the examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should make things clear.
 
 `getProperty(propertyName, obj)`: returns the value of a property
 
@@ -53,7 +53,7 @@ We have the usual
 
 The parameterized versions, are equivalent to calling the non-parameterized versions with functions `fn(param, ...)` ("curried" by partial application with the parameter `param`).
 
-See examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/mildly-horrifying-examples/output.html)] for greater clarity.
+See examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)] for greater clarity.
 
 ## Order Tools
 
