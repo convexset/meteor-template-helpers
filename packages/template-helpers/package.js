@@ -3,7 +3,7 @@ Package.describe({
 	version: '0.1.0',
 	summary: 'Template-level manipulation tools (such as python-style \"enumerate\" for collections and \"logic\").',
 	git: 'https://github.com/convexset/meteor-template-helpers',
-	documentation: 'README.md'
+	documentation: '../../README.md'
 });
 
 Package.onUse(function(api) {
