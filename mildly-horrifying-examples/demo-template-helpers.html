@@ -1,0 +1,174 @@
+<template name="DemoTemplateHelpers">
+	<h1>Test Lab</h1>
+
+	{{> DemoCollection }}
+	{{> DemoCompare }}
+</template>
+
+
+<template name="DemoCollection">
+	<h3>#each repackageDictionaryAsArray someObj</h3>
+	<table border=1>
+		<tr>
+			<th>key</th>
+			<th>value</th>
+		</tr>
+		{{#each repackageDictionaryAsArray someObj}}
+			<tr>
+				<td>{{key}}</td>
+				<td>{{value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each repackageDictionaryAsArray myContext</h3>
+	<table border=1>
+		<tr>
+			<th>key</th>
+			<th>value</th>
+		</tr>
+		{{#each repackageDictionaryAsArray myContext}}
+			<tr>
+				<td>{{key}}</td>
+				<td>{{value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each enumerate data</h3>
+	<table border=1>
+		<tr>
+			<th>idx</th>
+			<th>value</th>
+		</tr>
+		{{#each enumerate data}}
+			<tr>
+				<td>{{idx}}</td>
+				<td>{{value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each enumerateWithAddedContext data 'grub'</h3>
+	<table border=1>
+		<tr>
+			<th>idx</th>
+			<th>value</th>
+			<th>context</th>
+		</tr>
+		{{#each enumerateWithAddedContext data 'grub'}}
+			<tr>
+				<td>{{idx}}</td>
+				<td>{{value}}</td>
+				<td>{{context}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each enumerate (repackageDictionaryAsArray (appendContext someObj myContext))</h3>
+	<table border=1>
+		<tr>
+			<th>idx</th>
+			<th>value.key</th>
+			<th>value.value</th>
+		</tr>
+		{{#each enumerate (repackageDictionaryAsArray (appendContext someObj myContext))}}
+			<tr>
+				<td>{{idx}}</td>
+				<td>{{value.key}}</td>
+				<td>{{value.value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each enumerate (arrayify3Args (getProperty 'version' myContext) 2 3)</h3>
+	<table border=1>
+		<tr>
+			<th>idx</th>
+			<th>value</th>
+		</tr>
+		{{#each enumerate (arrayify3Args (getProperty 'version' myContext) 2 3)}}
+			<tr>
+				<td>{{idx}}</td>
+				<td>{{value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each enumerate (filter isEvenFn (arrayify6Args 1 2 3 4 5 6))</h3>
+	<table border=1>
+		<tr>
+			<th>idx</th>
+			<th>value</th>
+		</tr>
+		{{#each enumerate (filter isEvenFn (arrayify6Args 1 2 3 4 5 6))}}
+			<tr>
+				<td>{{idx}}</td>
+				<td>{{value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each enumerate (map add10Fn (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))</h3>
+	<table border=1>
+		<tr>
+			<th>idx</th>
+			<th>value</th>
+		</tr>
+		{{#each enumerate (map add10Fn (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))}}
+			<tr>
+				<td>{{idx}}</td>
+				<td>{{value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>#each enumerate (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))</h3>
+	<table border=1>
+		<tr>
+			<th>idx</th>
+			<th>value</th>
+		</tr>
+		{{#each enumerate (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))}}
+			<tr>
+				<td>{{idx}}</td>
+				<td>{{value}}</td>
+			</tr>
+		{{/each}}
+	</table>
+	
+	<h3>reduce sumReducer (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))</h3>
+	<p>
+		Yields: {{reduce sumReducer (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))}}
+	</p>
+	
+	<h3>reduceWithInitialValue sumReducer (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6))) 1000</h3>
+	<p>
+		Yields: {{reduceWithInitialValue sumReducer (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6))) 1000}}
+	</p>
+	
+	<h3>reduceWithInitialValue sumReducer (mapParameterized addVFn 20 (filter isEvenFn (flatten (arrayify2Args (arrayify3Args 1 2 3) (arrayify3Args 4 5 6))))) 1000</h3>
+	<p>
+		The code <code>arrayify2Args (arrayify3Args 1 2 3) (arrayify3Args 4 5 6))</code> returns <code>[[1, 2, 3], [4, 5, 6]]</code> which <code>flatten</code>'s to <code>[1, 2, 3, 4, 5, 6]</code>.
+	</p>
+	<p>
+		Yields: {{reduceWithInitialValue sumReducer (mapParameterized addVFn 20 (filter isEvenFn (flatten (arrayify2Args (arrayify3Args 1 2 3) (arrayify3Args 4 5 6))))) 1000}}
+	</p>
+	
+	<hr>
+</template>
+
+<template name="DemoCompare">
+	<h3>Comparing via <code>compareGeneral</code></h3>
+
+	<p>{{str compareV1}} &gt; {{str compareV2}} --&gt; {{greaterThan compareV1 compareV2}}</p>
+	<p>{{str compareV1}} &geq; {{str compareV2}} --&gt; {{greaterThanOrEqualTo compareV1 compareV2}}</p>
+	<p>{{str compareV1}} = {{str compareV2}} --&gt; {{equalTo compareV1 compareV2}}</p>
+	<p>{{str compareV1}} &leq; {{str compareV2}} --&gt; {{lessThanOrEqualTo compareV1 compareV2}}</p>
+	<p>{{str compareV1}} &lt; {{str compareV2}} --&gt; {{lessThan compareV1 compareV2}}</p>
+	
+	<p>{{str compareV1}} = {{str compareV1}} --&gt; {{equalTo compareV1 compareV1}}</p>
+	<p>{{str compareV2}} &leq; {{str compareV1}} --&gt; {{lessThanOrEqualTo compareV2 compareV1}}</p>
+	<p>{{str compareV2}} &lt; {{str compareV1}} --&gt; {{lessThan compareV2 compareV1}}</p>
+	<hr>
+</template>

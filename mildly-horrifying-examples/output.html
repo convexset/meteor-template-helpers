@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>TemplateHelpers Examples</title>
+	</head>
+	
+	<body>
+		
+		<h1>Test Lab</h1>
+		
+		<h3>#each repackageDictionaryAsArray someObj</h3>
+		<table border="1">
+			<tr>
+				<th>key</th>
+				<th>value</th>
+			</tr>
+			
+			<tr>
+				<td>number</td>
+				<td>1</td>
+			</tr>
+			
+			<tr>
+				<td>string</td>
+				<td>aaaa</td>
+			</tr>
+			
+			<tr>
+				<td>date</td>
+				<td>Mon Oct 12 2015 16:51:31 GMT+0800 (SGT)</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each repackageDictionaryAsArray myContext</h3>
+		<table border="1">
+			<tr>
+				<th>key</th>
+				<th>value</th>
+			</tr>
+			
+			<tr>
+				<td>version</td>
+				<td>1</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each enumerate data</h3>
+		<table border="1">
+			<tr>
+				<th>idx</th>
+				<th>value</th>
+			</tr>
+			
+			<tr>
+				<td>0</td>
+				<td>Thing 1</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>Thing 2</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>Thing 3</td>
+			</tr>
+			
+			<tr>
+				<td>3</td>
+				<td>Thing 4</td>
+			</tr>
+			
+			<tr>
+				<td>4</td>
+				<td>Thing 5</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each enumerateWithAddedContext data 'grub'</h3>
+		<table border="1">
+			<tr>
+				<th>idx</th>
+				<th>value</th>
+				<th>context</th>
+			</tr>
+			
+			<tr>
+				<td>0</td>
+				<td>Thing 1</td>
+				<td>grub</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>Thing 2</td>
+				<td>grub</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>Thing 3</td>
+				<td>grub</td>
+			</tr>
+			
+			<tr>
+				<td>3</td>
+				<td>Thing 4</td>
+				<td>grub</td>
+			</tr>
+			
+			<tr>
+				<td>4</td>
+				<td>Thing 5</td>
+				<td>grub</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each enumerate (repackageDictionaryAsArray (appendContext someObj myContext))</h3>
+		<table border="1">
+			<tr>
+				<th>idx</th>
+				<th>value.key</th>
+				<th>value.value</th>
+			</tr>
+			
+			<tr>
+				<td>0</td>
+				<td>number</td>
+				<td>1</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>string</td>
+				<td>aaaa</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>date</td>
+				<td>Mon Oct 12 2015 16:51:31 GMT+0800 (SGT)</td>
+			</tr>
+			
+			<tr>
+				<td>3</td>
+				<td>version</td>
+				<td>1</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each enumerate (arrayify3Args (getProperty 'version' myContext) 2 3)</h3>
+		<table border="1">
+			<tr>
+				<th>idx</th>
+				<th>value</th>
+			</tr>
+			
+			<tr>
+				<td>0</td>
+				<td>1</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>2</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>3</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each enumerate (filter isEvenFn (arrayify6Args 1 2 3 4 5 6))</h3>
+		<table border="1">
+			<tr>
+				<th>idx</th>
+				<th>value</th>
+			</tr>
+			
+			<tr>
+				<td>0</td>
+				<td>2</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>4</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>6</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each enumerate (map add10Fn (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))</h3>
+		<table border="1">
+			<tr>
+				<th>idx</th>
+				<th>value</th>
+			</tr>
+			
+			<tr>
+				<td>0</td>
+				<td>12</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>14</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>16</td>
+			</tr>
+			
+		</table>
+		
+		<h3>#each enumerate (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))</h3>
+		<table border="1">
+			<tr>
+				<th>idx</th>
+				<th>value</th>
+			</tr>
+			
+			<tr>
+				<td>0</td>
+				<td>22</td>
+			</tr>
+			
+			<tr>
+				<td>1</td>
+				<td>24</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>26</td>
+			</tr>
+			
+		</table>
+		
+		<h3>reduce sumReducer (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6)))</h3>
+		<p>
+			Yields: 72
+		</p>
+		
+		<h3>reduceWithInitialValue sumReducer (mapParameterized addVFn 20 (filter isEvenFn (arrayify6Args 1 2 3 4 5 6))) 1000</h3>
+		<p>
+			Yields: 1072
+		</p>
+		
+		<h3>reduceWithInitialValue sumReducer (mapParameterized addVFn 20 (filter isEvenFn (flatten (arrayify2Args (arrayify3Args 1 2 3) (arrayify3Args 4 5 6))))) 1000</h3>
+		<p>
+			The code <code>arrayify2Args (arrayify3Args 1 2 3) (arrayify3Args 4 5 6))</code> returns <code>[[1, 2, 3], [4, 5, 6]]</code> which <code>flatten</code>'s to <code>[1, 2, 3, 4, 5, 6]</code>.
+		</p>
+		<p>
+			Yields: 1072
+		</p>
+		
+		<hr>
+		<h3>Comparing via <code>compareGeneral</code></h3>
+		
+		<p>["ABC",{"a":3,"b":5}] &gt; ["ABC",{"a":3,"b":4}] --&gt; true</p>
+		<p>["ABC",{"a":3,"b":5}] ≥ ["ABC",{"a":3,"b":4}] --&gt; true</p>
+		<p>["ABC",{"a":3,"b":5}] = ["ABC",{"a":3,"b":4}] --&gt; </p>
+		<p>["ABC",{"a":3,"b":5}] ≤ ["ABC",{"a":3,"b":4}] --&gt; </p>
+		<p>["ABC",{"a":3,"b":5}] &lt; ["ABC",{"a":3,"b":4}] --&gt; </p>
+		
+		<p>["ABC",{"a":3,"b":5}] = ["ABC",{"a":3,"b":5}] --&gt; true</p>
+		<p>["ABC",{"a":3,"b":4}] ≤ ["ABC",{"a":3,"b":5}] --&gt; true</p>
+		<p>["ABC",{"a":3,"b":4}] &lt; ["ABC",{"a":3,"b":5}] --&gt; true</p>
+		<hr>
+	</body>
+</html>
