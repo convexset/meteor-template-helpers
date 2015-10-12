@@ -2,13 +2,13 @@
 
 This provides simple tools for Blaze such as in-template collection manipulation (may be totally unnecessary since it can be done in helpers, but whatever) and generalized order computations.
 
-See the examples in `./mildly-horrifying-examples/`.
+See the examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/mildly-horrifying-examples/output.html)].
 
 ## Collection Manipulation
 
 ### Object / Array Manipulation
 
-First have a look at the examples in `./mildly-horrifying-examples/`, which should make things clear.
+First have a look at the examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/mildly-horrifying-examples/output.html)], which should make things clear.
 
 `getProperty(propertyName, obj)`: returns the value of a property
 
@@ -29,9 +29,9 @@ First have a look at the examples in `./mildly-horrifying-examples/`, which shou
 `enumerate(arr)`: Generates an array of `{idx: idx, value: value}` items.
 
 **Example**: `<ul>{{#each enumerate (arrayify3Args 10 20 'goose')}}<li>{{idx}}: {{value}}</li>{{/each}}</ul>` renders the list:
- - 0: 10
- - 1: 20
- - 2: goose
+- 0: 10
+- 1: 20
+- 2: goose
 
 `enumerateWithAddedContext(arr, context)`: Generates an array of `{idx: idx, value: value, context: context}` items
 
@@ -40,39 +40,39 @@ First have a look at the examples in `./mildly-horrifying-examples/`, which shou
 ### Filter, Map, Reduce
 
 We have the usual
- - `filter(filterFn, arr)`
- - `map(mapFn, arr)`
- - `reduce(reduceFn, arr)`
- - `reduceWithInitialValue(reduceFn, arr, initialValue)`
+- `filter(filterFn, arr)`
+- `map(mapFn, arr)`
+- `reduce(reduceFn, arr)`
+- `reduceWithInitialValue(reduceFn, arr, initialValue)`
 
 ... and parameterized versions
- - `filterParameterized(filterFn, params, arr)`
- - `mapParameterized(mapFn, params, arr)`
- - `reduceParameterized(reduceFn, params, arr)`
- - `reduceParameterizedWithInitialValue(reduceFn, params, arr, initialValue)`
+- `filterParameterized(filterFn, params, arr)`
+- `mapParameterized(mapFn, params, arr)`
+- `reduceParameterized(reduceFn, params, arr)`
+- `reduceParameterizedWithInitialValue(reduceFn, params, arr, initialValue)`
 
 The parameterized versions, are equivalent to calling the non-parameterized versions with functions `fn(param, ...)` ("curried" by partial application with the parameter `param`).
 
-See examples in `./mildly-horrifying-examples/` for greater clarity.
+See examples in `./mildly-horrifying-examples/` [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/mildly-horrifying-examples/output.html)] for greater clarity.
 
 ## Order Tools
 
 Provides helpers that compare two values:
- - `greaterThan`
- - `greaterThanOrEqualTo`
- - `equalTo`
- - `lessThanOrEqualTo`
- - `lessThan`
+- `greaterThan`
+- `greaterThanOrEqualTo`
+- `equalTo`
+- `lessThanOrEqualTo`
+- `lessThan`
 
 **Example**: The code `{{#if greaterThan 2 1}}2 > 1{{else}}Surprise!!{{/if}}` renders the text "2 > 1".
 
 The helpers use `compareGeneral(v1, v2)` (also exposed via `TemplateHelpers.compareGeneral`) which is a general comparator such that:
- - Numbers: v1 - v2 > 0 ---> 
- - Booleans: true > false
- - Date: later > older
- - Arrays ordered lexicographically (first index with inequality is determines outcome; else inconclusive/"equal")
- - Strings: converted to arrays of char codes and compared as arrays of numbers
- - Objects: common (own) properties ordered alphabetically and compared like an array of values
+- Numbers: v1 - v2 > 0 --->
+- Booleans: true > false
+- Date: later > older
+- Arrays ordered lexicographically (first index with inequality is determines outcome; else inconclusive/"equal")
+- Strings: converted to arrays of char codes and compared as arrays of numbers
+- Objects: common (own) properties ordered alphabetically and compared like an array of values
 
 **Example**: The code `{{#if greaterThan (arrayify2Args 1 'b') (arrayify2Args 1 'a')}}[1, 'b'] > [1, 'a']{{else}}Surprise!!{{/if}}` renders the text "[1, 'b'] > [1, 'a']".
 
