@@ -129,7 +129,7 @@ UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContex
 });
 
 
-// Iterate over with {{#each enumerateExtendedByContext someArray context}}
+// Iterate over with {{#each enumerateAndExtendByContext someArray context}}
 // Generates an array of {idx: idx, value: value, ...} items extended
 // by the given context
 // Use carefully. Do not overwrite idx and value.... pls....... really. don't.

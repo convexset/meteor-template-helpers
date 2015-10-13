@@ -20,6 +20,8 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 `appendContext(obj, context)`: behaves like `_.extend`, returns an object equal to `obj` with the properties of `context` tacked on. (Does not mutate `obj`).
 
+**Example Use**: `{{someOtherHelper (appendContext baseObj context)}}`
+
 `arrayify0Args()` thru `arrayify100Args(x1, x2, ..., x100)`: takes in `n` arguments and returns an array of all `n` arguments. Paraphrasing immortal words: "100 parameters ought to be enough for anybody."
 
 **Example**: `{{#each arrayify3Args 1 2 3}}{{this}} {{/each}}` renders the text "1 2 3".
@@ -39,7 +41,11 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 `enumerateWithAddedContext(arr, context)`: Generates an array of `{idx: idx, value: value, context: context}` items
 
+**Example Use**: `{{#each enumerateAndExtendByContext someArray context}}`
+
 `enumerateAndExtendByContext(arr, context)`: Generates an array of `{idx: idx, value: value}` items extended by the given context (i.e.: `_.extend(`{idx: idx, value: value, ...}, context)`).
+
+**Example Use**: `{{#each enumerateAndExtendByContext someArray context}}`
 
 ### Filter, Map, Reduce
 
