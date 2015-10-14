@@ -1,5 +1,5 @@
 <template name="DemoTemplateHelpers">
-	<h1>Test Lab</h1>
+	<h1>TemplateHelpers Demo</h1>
 
 	{{> DemoCollection }}
 	{{> DemoCompare }}
@@ -35,13 +35,13 @@
 		{{/each}}
 	</table>
 	
-	<h3>#each enumerate data</h3>
+	<h3>#each enumerate things</h3>
 	<table border=1>
 		<tr>
 			<th>idx</th>
 			<th>value</th>
 		</tr>
-		{{#each enumerate data}}
+		{{#each enumerate things}}
 			<tr>
 				<td>{{idx}}</td>
 				<td>{{value}}</td>
@@ -49,14 +49,14 @@
 		{{/each}}
 	</table>
 	
-	<h3>#each enumerateWithAddedContext data 'grub'</h3>
+	<h3>#each enumerateWithAddedContext things 'grub'</h3>
 	<table border=1>
 		<tr>
 			<th>idx</th>
 			<th>value</th>
 			<th>context</th>
 		</tr>
-		{{#each enumerateWithAddedContext data 'grub'}}
+		{{#each enumerateWithAddedContext things 'grub'}}
 			<tr>
 				<td>{{idx}}</td>
 				<td>{{value}}</td>
@@ -155,6 +155,17 @@
 		Yields: {{reduceWithInitialValue sumReducer (mapParameterized addVFn 20 (filter isEvenFn (flatten (arrayify2Args (arrayify3Args 1 2 3) (arrayify3Args 4 5 6))))) 1000}}
 	</p>
 	
+	<h3>#each groupBy oddEvenGrouper (arrayify10Args 1 2 3 4 5 6 7 8 9 10)</h3>
+	<ul>
+		{{#each groupBy oddEvenGrouper (arrayify10Args 1 2 3 4 5 6 7 8 9 10)}}
+			<li>
+				{{key}} - 
+				{{#each data}}
+					{{this}}
+				{{/each}}
+			</li>
+		{{/each}}
+	</ul>
 	<hr>
 </template>
 

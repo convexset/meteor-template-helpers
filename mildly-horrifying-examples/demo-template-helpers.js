@@ -1,6 +1,6 @@
 if (Meteor.isClient) {
 	Template.DemoCollection.helpers({
-		data: function() {
+		things: function() {
 			return _.range(5).map(function(idx) {
 				return 'Thing ' + (idx + 1);
 			});
@@ -18,7 +18,7 @@ if (Meteor.isClient) {
 			};
 		},
 		isEvenFn: function() {
-			return function (x) {
+			return function(x) {
 				return x % 2 === 0;
 			};
 		},
@@ -35,8 +35,13 @@ if (Meteor.isClient) {
 			return fn;
 		},
 		sumReducer: function() {
-			return function (initVal, nextVal) {
+			return function(initVal, nextVal) {
 				return initVal + nextVal;
+			};
+		},
+		oddEvenGrouper: function() {
+			return function(x) {
+				return (x % 2 === 0) ? "Even" : "Odd";
 			};
 		},
 	});

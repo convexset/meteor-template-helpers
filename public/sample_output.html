@@ -7,7 +7,7 @@
 	
 	<body>
 		
-		<h1>Test Lab</h1>
+		<h1>TemplateHelpers Demo</h1>
 		
 		<h3>#each repackageDictionaryAsArray someObj</h3>
 		<table border="1">
@@ -28,7 +28,7 @@
 			
 			<tr>
 				<td>date</td>
-				<td>Mon Oct 12 2015 16:51:31 GMT+0800 (SGT)</td>
+				<td>Wed Oct 14 2015 16:10:57 GMT+0800 (SGT)</td>
 			</tr>
 			
 		</table>
@@ -47,7 +47,7 @@
 			
 		</table>
 		
-		<h3>#each enumerate data</h3>
+		<h3>#each enumerate things</h3>
 		<table border="1">
 			<tr>
 				<th>idx</th>
@@ -81,7 +81,7 @@
 			
 		</table>
 		
-		<h3>#each enumerateWithAddedContext data 'grub'</h3>
+		<h3>#each enumerateWithAddedContext things 'grub'</h3>
 		<table border="1">
 			<tr>
 				<th>idx</th>
@@ -144,7 +144,7 @@
 			<tr>
 				<td>2</td>
 				<td>date</td>
-				<td>Mon Oct 12 2015 16:51:31 GMT+0800 (SGT)</td>
+				<td>Wed Oct 14 2015 16:10:57 GMT+0800 (SGT)</td>
 			</tr>
 			
 			<tr>
@@ -269,6 +269,40 @@
 			Yields: 1072
 		</p>
 		
+		<h3>#each groupBy oddEvenGrouper (arrayify10Args 1 2 3 4 5 6 7 8 9 10)</h3>
+		<ul>
+			
+			<li>
+				Odd -
+				
+				1
+				
+				3
+				
+				5
+				
+				7
+				
+				9
+				
+			</li>
+			
+			<li>
+				Even -
+				
+				2
+				
+				4
+				
+				6
+				
+				8
+				
+				10
+				
+			</li>
+			
+		</ul>
 		<hr>
 		<h3>Comparing via <code>compareGeneral</code></h3>
 		

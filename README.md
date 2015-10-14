@@ -63,6 +63,9 @@ We have the usual
 
 The parameterized versions, are equivalent to calling the non-parameterized versions with functions `fn(param, ...)` ("curried" by partial application with the parameter `param`).
 
+... also, there is `groupBy(groupingFn, data)` which returns an array of objects `{key: this_key, data: data_grouped_to_this_key}` such that all elements in `.data` return `this_key` when passed through `groupingFn`.
+
+
 See examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)] for greater clarity.
 
 ## Order Tools

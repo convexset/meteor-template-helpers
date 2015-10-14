@@ -1,0 +1,43 @@
+<head>
+	<title>TemplateHelpers Tests</title>
+</head>
+<body>
+	{{> TestLevels 'top'}}
+
+	{{> TestHelperTest }}
+</body>
+
+<template name="TestLevels">
+	<h3>Levels</h3>
+	<ul>
+		{{#each enumerate (arrayify3Args 1 2 3)}}
+			{{> TestLevelsInner}}
+		{{/each}}
+	</ul>
+</template>
+
+<template name="TestLevelsInner">
+	<li>
+		[Inner Template] {{idx}} - {{value}}
+		{{> TestLevelsInnerInner value}}
+	</li>
+</template>
+
+<template name="TestLevelsInnerInner">
+	[Inner Inner Template]
+</template>
+
+<template name="TestHelperTest">
+	<h3>Helpers</h3>
+	<div>
+		getProperty: <span id="getProperty">{{getProperty 'name' item}}</span>
+	</div>
+
+	<div id="arrayify">
+		arrayify5Args: {{#each arrayify5Args 1 2 3 4 5}}<span>{{this}}</span> {{/each}}
+	</div>
+
+	<div id="flatten">
+		flatten + arrayify5Args arrayify4Args: {{#each flatten (arrayify2Args (arrayify5Args 1 2 3 4 5) (arrayify4Args 'a' 'b' 'c' 'd'))}}<span>{{this}}</span> {{/each}}
+	</div>
+</template>

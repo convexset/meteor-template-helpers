@@ -24,6 +24,19 @@ UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 });
 
 
+// Flattens an array of arrays by concatenation
+UI.registerHelper('groupBy', function flatten(groupingFn, data) {
+	var result = _.map(_.groupBy(data, groupingFn), function(data, key) {
+		return {
+			key: key,
+			data: data
+		};
+	});
+	console.log(result);
+	return result;
+});
+
+
 // Generates an of objects extended with context
 UI.registerHelper('appendContext', function appendContext(obj, context) {
 	var o = _.extend({}, obj);
