@@ -24,6 +24,12 @@ UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 });
 
 
+// Length
+UI.registerHelper('length', function length(arr) {
+	return arr.length;
+});
+
+
 // Flattens an array of arrays by concatenation
 UI.registerHelper('groupBy', function flatten(groupingFn, data) {
 	var result = _.map(_.groupBy(data, groupingFn), function(data, key) {

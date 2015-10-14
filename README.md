@@ -32,6 +32,10 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 **Example**: `{{#each flatten (arrayify3 (arrayify2Args 1 2) (arrayify2Args 3 4) 5)}}{{this}} {{/each}}` renders the text "1 2 3 4 5".
 
+`length(arr)`: Provides the length of an array.
+
+**Example**: `{{#if greaterThan (length (arrayify2Args 3 4)) 0}}More than 0 elements{{/if}}` renders the text "More than 0 elements".
+
 `enumerate(arr)`: Generates an array of `{idx: idx, value: value}` items.
 
 **Example**: `<ul>{{#each enumerate (arrayify3Args 10 20 'goose')}}<li>{{idx}}: {{value}}</li>{{/each}}</ul>` renders the list:
