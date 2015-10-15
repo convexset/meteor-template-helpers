@@ -18,6 +18,10 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 **Example**: `{{getProperty 'name' user}}` where `user` refers to a helper that returns `{name: 'bob', age: 8}` will render the text "bob".
 
+`join(arr, sep)`: returns an array concatenated with `sep` as a separator.
+
+**Example**: `{{join (arrayify3Args 1 2 3) ', '}}` render the text "1, 2, 3".
+
 `appendContext(obj, context)`: behaves like `_.extend`, returns an object equal to `obj` with the properties of `context` tacked on. (Does not mutate `obj`).
 
 **Example Use**: `{{someOtherHelper (appendContext baseObj context)}}`

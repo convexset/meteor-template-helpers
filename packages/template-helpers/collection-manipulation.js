@@ -10,6 +10,10 @@ _.range(0, 100 + 1).map(function(num_args) {
 });
 // jshint evil: false
 
+// Join
+UI.registerHelper('join', function(arr, sep) {
+	return arr.join(sep);
+});
 
 // Flattens an array of arrays by concatenation
 UI.registerHelper('flatten', function flatten(arrayOfArrays) {

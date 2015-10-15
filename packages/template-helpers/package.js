@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'convexset:template-helpers',
-	version: '0.1.2',
+	version: '0.1.3',
 	summary: 'Template-level manipulation tools (such as python-style \"enumerate\" for collections and \"logic\").',
 	git: 'https://github.com/convexset/meteor-template-helpers',
 	documentation: '../../README.md'
