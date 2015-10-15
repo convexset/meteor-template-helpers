@@ -15,6 +15,21 @@ UI.registerHelper('join', function(arr, sep) {
 	return arr.join(sep);
 });
 
+// First
+UI.registerHelper('first', function(arr) {
+	return arr[0];
+});
+
+// Last
+UI.registerHelper('last', function(arr) {
+	return arr[arr.length - 1];
+});
+
+// getElementAt
+UI.registerHelper('getElementAt', function(arr, idx) {
+	return arr[idx];
+});
+
 // Flattens an array of arrays by concatenation
 UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 	return arrayOfArrays.reduce(function(currValue, nextValue) {
