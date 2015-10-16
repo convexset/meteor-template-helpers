@@ -94,7 +94,7 @@ Provides helpers that compare two values:
 **Example**: The code `{{#if greaterThan 2 1}}2 > 1{{else}}Surprise!!{{/if}}` renders the text "2 > 1".
 
 The helpers use `compareGeneral(v1, v2)` (also exposed via `TemplateHelpers.compareGeneral`) which is a general comparator such that:
-- Numbers: v1 - v2 > 0 --->
+- Numbers: v1 - v2 > 0 ---> true
 - Booleans: true > false
 - Date: later > older
 - Arrays ordered lexicographically (first index with inequality is determines outcome; else inconclusive/"equal")
