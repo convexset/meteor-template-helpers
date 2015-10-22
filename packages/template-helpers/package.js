@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'convexset:template-helpers',
-	version: '0.1.3',
+	version: '0.1.4',
 	summary: 'Template-level manipulation tools (such as python-style \"enumerate\" for collections and \"logic\").',
 	git: 'https://github.com/convexset/meteor-template-helpers',
 	documentation: '../../README.md'
@@ -12,6 +12,7 @@ Package.onUse(function(api) {
 	api.addFiles([
 		'collection-manipulation.js',
 		'order-tools.js',
+		'logic.js',
 		'parent-template.js',
 	], 'client');
 	api.export(['TemplateHelpers'], 'client');

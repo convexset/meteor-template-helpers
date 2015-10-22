@@ -57,7 +57,6 @@ UI.registerHelper('groupBy', function flatten(groupingFn, data) {
 			data: data
 		};
 	});
-	console.log(result);
 	return result;
 });
 

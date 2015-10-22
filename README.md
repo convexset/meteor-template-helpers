@@ -82,6 +82,12 @@ The parameterized versions, are equivalent to calling the non-parameterized vers
 
 See examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)] for greater clarity.
 
+## Logic
+
+Already, one can do `{{#if true}}True{{else}}erm...{{/if}}` and `{{#if false}}erm...{{else}}False{{/if}}`. Now, if one does not want to use `#unless`, there is:
+
+`not`: e.g.: `{{#if not true}}erm...{{else}}False{{/if}}`
+
 ## Order Tools
 
 Provides helpers that compare two values:
