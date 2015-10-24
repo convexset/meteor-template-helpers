@@ -88,6 +88,8 @@ Already, one can do `{{#if true}}True{{else}}erm...{{/if}}` and `{{#if false}}er
 
 `not`: e.g.: `{{#if not true}}erm...{{else}}False{{/if}}`
 
+`ternary`: e.g.: `{{ternary predicate a b}}` returns `predicate ? a : b`
+
 ## Order Tools
 
 Provides helpers that compare two values:
