@@ -40,6 +40,8 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 `join(arr, sep)`: returns an array concatenated with `sep` as a separator.
 
+`clump(arr, n)`: returns an array of arrays of at most `n` elements each, that collectively contain all the elements of `arr`. e.g.: `[0,1,2,3,4]` with `n=2` returns `[[0,1], [2,3], [4]]`. Useful for layouts with a maximum number of elements in each sub-collection (e.g.: row).
+
 **Example**: `{{join (arrayify3Args 1 2 3) ', '}}` render the text "1, 2, 3".
 
 `repackageDictionaryAsArray(obj)`: returns an array of `{key: keyName, value: value}` objects based on the properties of `obj`.

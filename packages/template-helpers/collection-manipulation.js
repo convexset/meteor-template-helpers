@@ -54,6 +54,23 @@ UI.registerHelper('contains', function(arr, v) {
 	return indices.length > 0;
 });
 
+// clump
+UI.registerHelper('clump', function(arr, n) {
+	var clumps = [];
+	var this_clump = [];
+	for (var idx = 0; idx < arr.length; idx++) {
+		this_clump.push(arr[idx]);
+		if (this_clump.length === n) {
+			clumps.push(this_clump);
+			this_clump = [];
+		}
+	}
+	if (this_clump.length > 0) {
+		clumps.push(this_clump);
+	}
+	return clumps;
+});
+
 // Flattens an array of arrays by concatenation
 UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 	return arrayOfArrays.reduce(function(currValue, nextValue) {
