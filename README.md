@@ -32,6 +32,12 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 `getElementAt(arr, idx)`: returns the element at `idx` of `arr`
 
+`indexOf(arr, v)`: returns the first index of element at `v` in `arr`
+
+`allIndicesOf(arr, v)`: returns the all indices of element at `v` in `arr`
+
+`contains(arr, v)`: returns whether element at `v` occurs in `arr`
+
 `join(arr, sep)`: returns an array concatenated with `sep` as a separator.
 
 **Example**: `{{join (arrayify3Args 1 2 3) ', '}}` render the text "1, 2, 3".

@@ -30,6 +30,30 @@ UI.registerHelper('getElementAt', function(arr, idx) {
 	return arr[idx];
 });
 
+function allIndicesOf(arr, v) {
+	return _.map(arr, function(value, idx) {
+		return {
+			idx: idx,
+			value: value
+		};
+	}).filter(x => _.isEqual(x.value, v)).map(x => x.idx);
+}
+
+// allIndicesOf
+UI.registerHelper('allIndicesOf', allIndicesOf);
+
+// indexOf
+UI.registerHelper('indexOf', function(arr, v) {
+	var indices = allIndicesOf(arr, v);
+	return indices.length > 0 ? indices[0] : -1;
+});
+
+// contains
+UI.registerHelper('contains', function(arr, v) {
+	var indices = allIndicesOf(arr, v);
+	return indices.length > 0;
+});
+
 // Flattens an array of arrays by concatenation
 UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 	return arrayOfArrays.reduce(function(currValue, nextValue) {
