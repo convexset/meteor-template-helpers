@@ -10,6 +10,21 @@ _.range(0, 100 + 1).map(function(num_args) {
 });
 // jshint evil: false
 
+// uniq
+UI.registerHelper('uniq', function uniq(arr) {
+	var uniqElems = [];
+	arr.forEach(function (elem) {
+		var match = false;
+		uniqElems.forEach(function (item) {
+			match = match || _.isEqual(elem, item);
+		});
+		if (!match) {
+			uniqElems.push(elem);
+		}
+	});
+	return uniqElems;
+});
+
 // Join
 UI.registerHelper('join', function join(arr, sep) {
 	return arr.join(sep);

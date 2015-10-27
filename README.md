@@ -8,7 +8,9 @@ See the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit l
 
 This is available as [`convexset:template-helpers`](https://atmospherejs.com/convexset/template-helpers) on [Atmosphere](https://atmospherejs.com/). (Install with `meteor add convexset:template-helpers`.)
 
-## Collection Manipulation
+## Usage
+
+First have a look at the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should make things clear.
 
 ### Object Manipulation
 
@@ -23,8 +25,6 @@ This is available as [`convexset:template-helpers`](https://atmospherejs.com/con
 `repackageDictionaryAsArray(obj)`: returns an array of `{key: keyName, value: value}` objects based on the properties of `obj`.
 
 ### Array Manipulation
-
-First have a look at the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should make things clear.
 
 `arrayify0Args()` thru `arrayify100Args(x1, x2, ..., x100)`: takes in `n` arguments and returns an array of all `n` arguments. Paraphrasing immortal words: "100 parameters ought to be enough for anybody."
 
@@ -72,6 +72,8 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 **Example Use**: `{{#each enumerateAndExtendByContext someArray context}}`
 
 ### Others
+
+`uniq(arr)`: returns an array of the unique items of `arr` using [`_.isEqual`](http://underscorejs.org/#isEqual) as a comparator.
 
 `range(num)`, `rangeStartToEnd(start, end)` and `rangeStartToEndPlusStep(start, end, step)` provide the various forms of [`_.range`](http://underscorejs.org/#range).
 
