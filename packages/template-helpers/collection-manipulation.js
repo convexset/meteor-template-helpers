@@ -11,22 +11,37 @@ _.range(0, 100 + 1).map(function(num_args) {
 // jshint evil: false
 
 // Join
-UI.registerHelper('join', function(arr, sep) {
+UI.registerHelper('join', function join(arr, sep) {
 	return arr.join(sep);
 });
 
+// Range
+UI.registerHelper('range', function range(num) {
+	return _.range(num);
+});
+
+// Range
+UI.registerHelper('rangeStartToEnd', function rangeStartToEnd(start, end) {
+	return _.range(start, end);
+});
+
+// Range
+UI.registerHelper('rangeStartToEndPlusStep', function rangeStartToEndPlusStep(start, end, step) {
+	return _.range(start, end, step);
+});
+
 // First
-UI.registerHelper('first', function(arr) {
+UI.registerHelper('first', firstfunction(arr) {
 	return arr[0];
 });
 
 // Last
-UI.registerHelper('last', function(arr) {
+UI.registerHelper('last', function last(arr) {
 	return arr[arr.length - 1];
 });
 
 // getElementAt
-UI.registerHelper('getElementAt', function(arr, idx) {
+UI.registerHelper('getElementAt', function getElementAt(arr, idx) {
 	return arr[idx];
 });
 
@@ -43,19 +58,19 @@ function allIndicesOf(arr, v) {
 UI.registerHelper('allIndicesOf', allIndicesOf);
 
 // indexOf
-UI.registerHelper('indexOf', function(arr, v) {
+UI.registerHelper('indexOf', function indexOf(arr, v) {
 	var indices = allIndicesOf(arr, v);
 	return indices.length > 0 ? indices[0] : -1;
 });
 
 // contains
-UI.registerHelper('contains', function(arr, v) {
+UI.registerHelper('contains', function contains(arr, v) {
 	var indices = allIndicesOf(arr, v);
 	return indices.length > 0;
 });
 
 // clump
-UI.registerHelper('clump', function(arr, n) {
+UI.registerHelper('clump', function clump(arr, n) {
 	var clumps = [];
 	var this_clump = [];
 	for (var idx = 0; idx < arr.length; idx++) {

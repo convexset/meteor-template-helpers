@@ -10,9 +10,7 @@ This is available as [`convexset:template-helpers`](https://atmospherejs.com/con
 
 ## Collection Manipulation
 
-### Object / Array Manipulation
-
-First have a look at the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should make things clear.
+### Object Manipulation
 
 `getProperty(propertyName, obj)`: returns the value of a property
 
@@ -21,6 +19,12 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 `appendContext(obj, context)`: behaves like `_.extend`, returns an object equal to `obj` with the properties of `context` tacked on. (Does not mutate `obj`).
 
 **Example Use**: `{{someOtherHelper (appendContext baseObj context)}}`
+
+`repackageDictionaryAsArray(obj)`: returns an array of `{key: keyName, value: value}` objects based on the properties of `obj`.
+
+### Array Manipulation
+
+First have a look at the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should make things clear.
 
 `arrayify0Args()` thru `arrayify100Args(x1, x2, ..., x100)`: takes in `n` arguments and returns an array of all `n` arguments. Paraphrasing immortal words: "100 parameters ought to be enough for anybody."
 
@@ -44,8 +48,6 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 **Example**: `{{join (arrayify3Args 1 2 3) ', '}}` render the text "1, 2, 3".
 
-`repackageDictionaryAsArray(obj)`: returns an array of `{key: keyName, value: value}` objects based on the properties of `obj`.
-
 `flatten(arrayOfArrays)`: flattens an array of arrays by concatenation.
 
 **Example**: `{{#each flatten (arrayify3 (arrayify2Args 1 2) (arrayify2Args 3 4) 5)}}{{this}} {{/each}}` renders the text "1 2 3 4 5".
@@ -68,6 +70,10 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 `enumerateAndExtendByContext(arr, context)`: Generates an array of `{idx: idx, value: value}` items extended by the given context (i.e.: `_.extend(`{idx: idx, value: value, ...}, context)`).
 
 **Example Use**: `{{#each enumerateAndExtendByContext someArray context}}`
+
+### Others
+
+`range(num)`, `rangeStartToEnd(start, end)` and `rangeStartToEndPlusStep(start, end, step)` provide the various forms of [`_.range`](http://underscorejs.org/#range).
 
 ### Filter, Map, Reduce
 
