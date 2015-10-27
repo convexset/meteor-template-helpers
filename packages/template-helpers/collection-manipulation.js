@@ -31,7 +31,7 @@ UI.registerHelper('rangeStartToEndPlusStep', function rangeStartToEndPlusStep(st
 });
 
 // First
-UI.registerHelper('first', firstfunction(arr) {
+UI.registerHelper('first', function first(arr) {
 	return arr[0];
 });
 
