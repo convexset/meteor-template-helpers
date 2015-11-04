@@ -13,7 +13,8 @@ UI.registerHelper('greaterThanOrEqualTo', function(v1, v2) {
 
 UI.registerHelper('equalTo', function(v1, v2) {
 	// console.log('equalTo', v1, v2);
-	return compareGeneral(v1, v2) === 0;
+	// return compareGeneral(v1, v2) === 0;
+	return _.isEqual(v1, v2);
 });
 
 UI.registerHelper('lessThanOrEqualTo', function(v1, v2) {
