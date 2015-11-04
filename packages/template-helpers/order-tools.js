@@ -86,7 +86,7 @@ function compareGeneral(v1, v2) {
 				return result;
 			}
 		}
-		return 0;
+		return v1.length - v2.length;
 	}
 
 	var properties = [];
