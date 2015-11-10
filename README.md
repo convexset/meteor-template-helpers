@@ -4,6 +4,24 @@ This provides simple tools for Blaze such as in-template collection manipulation
 
 See the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)].
 
+## Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Object Manipulation](#object-manipulation)
+  - [Array Manipulation](#array-manipulation)
+  - [Others](#others)
+  - [Filter, Map, Reduce](#filter-map-reduce)
+- [Logic](#logic)
+- [Order Tools](#order-tools)
+- [Parent Template](#parent-template)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Install
 
 This is available as [`convexset:template-helpers`](https://atmospherejs.com/convexset/template-helpers) on [Atmosphere](https://atmospherejs.com/). (Install with `meteor add convexset:template-helpers`.)
