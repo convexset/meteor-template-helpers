@@ -18,7 +18,7 @@ See the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit l
   - [Filter, Map, Reduce](#filter-map-reduce)
 - [Logic](#logic)
 - [Order Tools](#order-tools)
-- [Parent Template](#parent-template)
+- [Template Extensions](#template-extensions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -146,6 +146,10 @@ The helpers use `compareGeneral(v1, v2)` (also exposed via `TemplateHelpers.comp
 **Example**: The code `{{#if greaterThan (arrayify2Args 1 'b') (arrayify2Args 1 'a')}}[1, 'b'] > [1, 'a']{{else}}Surprise!!{{/if}}` renders the text "[1, 'b'] > [1, 'a']".
 
 
-## Parent Template
+## Template Extensions
 
 `Blaze.TemplateInstance.prototype.parentTemplate = function(levels) { ... }`: returns the parent template `level` levels up. (Stolen from [here](http://stackoverflow.com/questions/27949407/how-to-get-the-parent-template-instance-of-the-current-template/27962713#27962713))
+
+`Blaze.TemplateInstance.prototype.callFunctionWithTemplateContext = function(fn, context, arg1, arg2, ...)`: call function `fn` with context `context` and arguments `arg1`, `arg2`, ..., with `Template.instance()` accessible and pointing to current template instance.
+
+`Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function(fn, context, args)`: apply function `fn` with context `context` and arguments `args`, with `Template.instance()` accessible and pointing to current template instance.

@@ -30,6 +30,11 @@ UI.registerHelper('join', function join(arr, sep) {
 	return arr.join(sep);
 });
 
+// Split
+UI.registerHelper('split', function split(s, sep) {
+	return s.split(sep);
+});
+
 // Range
 UI.registerHelper('range', function range(num) {
 	return _.range(num);
