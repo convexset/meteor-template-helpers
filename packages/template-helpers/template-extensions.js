@@ -39,7 +39,7 @@ Blaze.TemplateInstance.prototype.callFunctionWithTemplateContext = function call
 	var instance = this;
 	var currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
 	Template._currentTemplateInstanceFunc = () => instance;
-	fn.apply(context, args);
+	fn.apply((!!context) ? context : instance, args);
 	Template._currentTemplateInstanceFunc = currTemplateInstanceFunc;
 };
 
@@ -49,6 +49,6 @@ Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function app
 	var instance = this;
 	var currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
 	Template._currentTemplateInstanceFunc = () => instance;
-	fn.apply(context, args);
+	fn.apply((!!context) ? context : instance, args);
 	Template._currentTemplateInstanceFunc = currTemplateInstanceFunc;
 };
