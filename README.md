@@ -60,7 +60,9 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 `contains(arr, v)`: returns whether element at `v` occurs in `arr`
 
-`join(arr, sep)`: returns an array concatenated with `sep` as a separator.
+`join(arr, sep)`: returns a string comprising elements of an array concatenated with `sep` as a separator.
+
+`split(s, sep)`: returns an array arising from taking a string `s` and performing `s.split(sep)`.
 
 `clump(arr, n)`: returns an array of arrays of at most `n` elements each, that collectively contain all the elements of `arr`. e.g.: `[0,1,2,3,4]` with `n=2` returns `[[0,1], [2,3], [4]]`. Useful for layouts with a maximum number of elements in each sub-collection (e.g.: row).
 
