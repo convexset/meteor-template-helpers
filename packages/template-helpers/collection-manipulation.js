@@ -13,9 +13,9 @@ _.range(0, 100 + 1).map(function(num_args) {
 // uniq
 UI.registerHelper('uniq', function uniq(arr) {
 	var uniqElems = [];
-	arr.forEach(function (elem) {
+	arr.forEach(function(elem) {
 		var match = false;
-		uniqElems.forEach(function (item) {
+		uniqElems.forEach(function(item) {
 			match = match || _.isEqual(elem, item);
 		});
 		if (!match) {
@@ -217,13 +217,20 @@ UI.registerHelper('repackageDictionaryAsArray', function repackageDictionaryAsAr
 });
 
 
+function makeId(o) {
+	return CryptoJS.SHA1((typeof o) + '_' + EJSON.stringify(o, {
+		canonical: true
+	})).toString(CryptoJS.enc.Base64);
+}
+
 // Iterate over with {{#each enumerate someArray}}
 // Generates an array of {idx: idx, value: value} items
 UI.registerHelper('enumerate', function enumerate(arr) {
 	return _.map(arr, function(item, idx) {
 		return {
 			idx: idx,
-			value: item
+			value: item,
+			_id: makeId(item),
 		};
 	});
 });
@@ -236,6 +243,7 @@ UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContex
 		return {
 			idx: idx,
 			value: item,
+			_id: makeId(item),
 			context: context
 		};
 	});
@@ -245,12 +253,28 @@ UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContex
 // Iterate over with {{#each enumerateAndExtendByContext someArray context}}
 // Generates an array of {idx: idx, value: value, ...} items extended
 // by the given context
-// Use carefully. Do not overwrite idx and value.... pls....... really. don't.
 UI.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByContext(arr, context) {
 	return _.map(arr, function(item, idx) {
 		return _.extend({
+			_id: makeId(item)
+		}, context, {
 			idx: idx,
-			value: item
-		}, context);
+			value: item,
+		});
+	});
+});
+
+
+// Iterate over with {{#each enumerateAndExtendByContext someArray context}}
+// Generates an array of {idx: idx, value: value, ...} items extended
+// by the given context (allows selection of names of idx field and item field)
+UI.registerHelper('enumerateAndExtendByContextCustom', function enumerateAndExtendByContextCustom(arr, context, idxField, valueField) {
+	return _.map(arr, function(item, idx) {
+		return _.extend({
+			_id: makeId(item)
+		}, context, _.object([
+			[idxField, idx],
+			[valueField, item]
+		]));
 	});
 });

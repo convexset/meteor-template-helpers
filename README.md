@@ -76,18 +76,20 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 **Example**: `{{#if greaterThan (length (arrayify2Args 3 4)) 0}}More than 0 elements{{/if}}` renders the text "More than 0 elements".
 
-`enumerate(arr)`: Generates an array of `{idx: idx, value: value}` items.
+`enumerate(arr)`: Generates an array of `{idx: idx, value: value, _id: ...}` items. (`_id` is generated from a SHA1 hash of a serialized expression of the value, enabling #each blocks to react to changes)
 
 **Example**: `<ul>{{#each enumerate (arrayify3Args 10 20 'goose')}}<li>{{idx}}: {{value}}</li>{{/each}}</ul>` renders the list:
 - 0: 10
 - 1: 20
 - 2: goose
 
-`enumerateWithAddedContext(arr, context)`: Generates an array of `{idx: idx, value: value, context: context}` items
+`enumerateWithAddedContext(arr, context)`: Generates an array of `{idx: idx, value: value, context: context, _id: ...}` items (`_id` is generated from a SHA1 hash of a serialized expression of the value, enabling #each blocks to react to changes)
 
 **Example Use**: `{{#each enumerateAndExtendByContext someArray context}}`
 
-`enumerateAndExtendByContext(arr, context)`: Generates an array of `{idx: idx, value: value}` items extended by the given context (i.e.: `_.extend(`{idx: idx, value: value, ...}, context)`).
+`enumerateAndExtendByContext(arr, context)`: Generates an array of `{idx: idx, value: value, _id: ...}` items extended by the given context (actually, `{_id: ...}` may get overwritten by parts of `context` which may then be overwritten by parts of `{idx: idx, value: value}`.
+
+`enumerateAndExtendByContextCustom(arr, context, idxField, valueField)`: Similar to the above, just that the name of the `idx` and `value` fields may be customized.
 
 **Example Use**: `{{#each enumerateAndExtendByContext someArray context}}`
 

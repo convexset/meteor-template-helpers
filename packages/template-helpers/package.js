@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'convexset:template-helpers',
-	version: '0.1.12',
+	version: '0.1.13',
 	summary: 'Template-level manipulation tools (such as python-style \"enumerate\" for collections and \"logic\").',
 	git: 'https://github.com/convexset/meteor-template-helpers',
 	documentation: '../../README.md'
@@ -8,7 +8,11 @@ Package.describe({
 
 Package.onUse(function(api) {
 	api.versionsFrom('1.2.0.2');
-	api.use(['ecmascript', 'underscore', 'blaze'], 'client');
+	api.use([
+		'ecmascript', 'underscore', 'blaze', 'ejson',
+		'jparker:crypto-core@0.1.0',
+		'jparker:crypto-sha1@0.1.0',
+	], 'client');
 	api.addFiles([
 		'collection-manipulation.js',
 		'order-tools.js',
