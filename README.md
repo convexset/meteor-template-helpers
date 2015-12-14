@@ -95,6 +95,14 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 ### Others
 
+`emptyArray`: returns an empty array
+
+`emptyObject`: returns an empty object
+
+`null`: returns `null`
+
+`now`: returns the current date
+
 `uniq(arr)`: returns an array of the unique items of `arr` using [`_.isEqual`](http://underscorejs.org/#isEqual) as a comparator.
 
 `range(num)`, `rangeStartToEnd(start, end)` and `rangeStartToEndPlusStep(start, end, step)` provide the various forms of [`_.range`](http://underscorejs.org/#range).

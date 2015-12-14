@@ -10,6 +10,12 @@ _.range(0, 100 + 1).map(function(num_args) {
 });
 // jshint evil: false
 
+// defaults
+UI.registerHelper('emptyArray', () => []);
+UI.registerHelper('emptyObject', () => ({}));
+UI.registerHelper('null', () => null);
+UI.registerHelper('now', () => new Date());
+
 // uniq
 UI.registerHelper('uniq', function uniq(arr) {
 	var uniqElems = [];
