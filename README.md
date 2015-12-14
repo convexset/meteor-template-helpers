@@ -99,7 +99,7 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 `emptyObject`: returns an empty object
 
-`null`: returns `null`
+`returnNull`: returns `null`
 
 `now`: returns the current date
 

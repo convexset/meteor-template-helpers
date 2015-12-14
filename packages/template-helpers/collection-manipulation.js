@@ -13,7 +13,7 @@ _.range(0, 100 + 1).map(function(num_args) {
 // defaults
 UI.registerHelper('emptyArray', () => []);
 UI.registerHelper('emptyObject', () => ({}));
-UI.registerHelper('null', () => null);
+UI.registerHelper('returnNull', () => null);
 UI.registerHelper('now', () => new Date());
 
 // uniq
@@ -127,7 +127,7 @@ UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 
 // Length
 UI.registerHelper('length', function length(arr) {
-	return arr.length;
+	return Object.keys(arr).length;
 });
 
 
