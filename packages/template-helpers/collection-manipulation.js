@@ -200,7 +200,7 @@ UI.registerHelper('reduceParameterizedWithInitialValue', function reduceParamete
 
 // Generates an of objects extended with context
 UI.registerHelper('getProperty', function getProperty(propertyName, obj) {
-	return obj[propertyName];
+	return (typeof obj[propertyName] !== "undefined") ? obj[propertyName] : null;
 });
 
 
