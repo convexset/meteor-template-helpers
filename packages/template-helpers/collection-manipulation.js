@@ -242,6 +242,18 @@ UI.registerHelper('enumerate', function enumerate(arr) {
 });
 
 
+// Iterate over with {{#each enumerateNoId someArray}}
+// Generates an array of {idx: idx, value: value} items
+UI.registerHelper('enumerateNoId', function enumerate(arr) {
+	return _.map(arr, function(item, idx) {
+		return {
+			idx: idx,
+			value: item,
+		};
+	});
+});
+
+
 // Iterate over with {{#each enumerateWithAddedContext someArray context}}
 // Generates an array of {idx: idx, value: value, context: context} items
 UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContext(arr, context) {
