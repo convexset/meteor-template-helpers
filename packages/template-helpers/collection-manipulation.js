@@ -236,7 +236,7 @@ UI.registerHelper('enumerate', function enumerate(arr) {
 		return {
 			idx: idx,
 			value: item,
-			_id: makeId(item),
+			_id: makeId(idx + "_" + makeId(item)),
 		};
 	});
 });
@@ -249,7 +249,7 @@ UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContex
 		return {
 			idx: idx,
 			value: item,
-			_id: makeId(item),
+			_id: makeId(idx + "_" + makeId(item)),
 			context: context
 		};
 	});
@@ -262,7 +262,7 @@ UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContex
 UI.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByContext(arr, context) {
 	return _.map(arr, function(item, idx) {
 		return _.extend({
-			_id: makeId(item)
+			_id: makeId(idx + "_" + makeId(item))
 		}, context, {
 			idx: idx,
 			value: item,
@@ -277,7 +277,7 @@ UI.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByCo
 UI.registerHelper('enumerateAndExtendByContextCustom', function enumerateAndExtendByContextCustom(arr, context, idxField, valueField) {
 	return _.map(arr, function(item, idx) {
 		return _.extend({
-			_id: makeId(item)
+			_id: makeId(idx + "_" + makeId(item))
 		}, context, _.object([
 			[idxField, idx],
 			[valueField, item]
