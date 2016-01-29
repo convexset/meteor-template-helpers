@@ -1,3 +1,5 @@
+/* global compareGeneral: true */
+
 // Generates argument concatenators
 // Takes 0 to 100 arguments and returns an array
 // e.g.: arrayify5Args x1 x2 x3 x4 x5 ---> [x1, x2, x3, x4, x5]
@@ -203,6 +205,20 @@ UI.registerHelper('getProperty', function getProperty(propertyName, obj) {
 	return (!!obj && (typeof obj[propertyName] !== "undefined")) ? obj[propertyName] : null;
 });
 
+// returns in sorted order
+UI.registerHelper('sort', function(arr) {
+	return _.isArray(arr) ? arr.sort(compareGeneral) : arr;
+});
+
+// reverse
+UI.registerHelper('reverse', function(arr) {
+	return _.isArray(arr) ? arr.reverse : [];
+});
+
+// returns in sorted order by some property
+UI.registerHelper('sortBy', function(prop, arr) {
+	return _.isArray(arr) ? arr.sort((x, y) => compareGeneral(x[prop], y[prop])) : arr;
+});
 
 // Repackage dictionary as an array of {key: ..., value: ...} elements
 // Iterate over with {{#each repackageDictionaryAsArray someDictionary}}

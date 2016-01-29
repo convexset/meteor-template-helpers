@@ -1,4 +1,5 @@
 /* global TemplateHelpers: true */
+/* global compareGeneral: true */
 
 // Greater than less than and so on
 UI.registerHelper('greaterThan', function(v1, v2) {
@@ -45,7 +46,7 @@ function stringToArrayOfCharCodes(s) {
 	 - Strings: converted to arrays of char codes
 	 - Objects: in (alphabetical) property order
 */
-function compareGeneral(v1, v2) {
+compareGeneral = function compareGeneral(v1, v2) {
 	// console.log(v1, v2, '|', typeof v1, typeof v2);
 
 	if (typeof v1 !== typeof v2) {

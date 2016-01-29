@@ -107,6 +107,12 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 `range(num)`, `rangeStartToEnd(start, end)` and `rangeStartToEndPlusStep(start, end, step)` provide the various forms of [`_.range`](http://underscorejs.org/#range).
 
+`sort(arr)`: returns array in sorted order
+
+`sortBy(propName, arr)`: returns in sorted order by some property
+
+`reverse(arr)`: returns array in reversed order
+
 ### Filter, Map, Reduce
 
 We have the usual
