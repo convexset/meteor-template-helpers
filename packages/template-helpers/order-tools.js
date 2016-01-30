@@ -109,9 +109,7 @@ compareGeneral = function compareGeneral(v1, v2) {
 }
 
 // Export
-(function(){
-	if (typeof TemplateHelpers === "undefined") {
-		TemplateHelpers = {};
-	}
-	TemplateHelpers.compareGeneral = compareGeneral;
-})();
+if (typeof TemplateHelpers === "undefined") {
+	TemplateHelpers = {};
+}
+TemplateHelpers.compareGeneral = compareGeneral;
