@@ -74,6 +74,7 @@ UI.registerHelper('getElementAt', function getElementAt(arr, idx) {
 });
 
 function allIndicesOf(arr, v) {
+	arr = arr || [];
 	return _.map(arr, function(value, idx) {
 		return {
 			idx: idx,
@@ -99,6 +100,7 @@ UI.registerHelper('contains', function contains(arr, v) {
 
 // clump
 UI.registerHelper('clump', function clump(arr, n) {
+	arr = arr || [];
 	var clumps = [];
 	var this_clump = [];
 	for (var idx = 0; idx < arr.length; idx++) {
@@ -116,6 +118,7 @@ UI.registerHelper('clump', function clump(arr, n) {
 
 // Flattens an array of arrays by concatenation
 UI.registerHelper('flatten', function flatten(arrayOfArrays) {
+	arrayOfArrays = arrayOfArrays || [];
 	return arrayOfArrays.reduce(function(currValue, nextValue) {
 		if (nextValue instanceof Array) {
 			return currValue.concat(nextValue);
@@ -129,12 +132,14 @@ UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 
 // Length
 UI.registerHelper('length', function length(arr) {
+	arr = arr || [];
 	return Object.keys(arr).length;
 });
 
 
 // Flattens an array of arrays by concatenation
 UI.registerHelper('groupBy', function flatten(groupingFn, data) {
+	data = data || [];
 	var result = _.map(_.groupBy(data, groupingFn), function(data, key) {
 		return {
 			key: key,
@@ -154,24 +159,28 @@ UI.registerHelper('appendContext', function appendContext(obj, context) {
 
 // Does filtering
 UI.registerHelper('filter', function filter(filterFn, arr) {
+	arr = arr || [];
 	return arr.filter(filterFn);
 });
 
 
 // Does mapping
 UI.registerHelper('map', function map(mapFn, arr) {
+	arr = arr || [];
 	return arr.map(mapFn);
 });
 
 
 // Does reduction
 UI.registerHelper('reduce', function reduce(reduceFn, arr) {
+	arr = arr || [];
 	return arr.reduce(reduceFn);
 });
 
 
 // Does reduction with initial value
 UI.registerHelper('reduceWithInitialValue', function reduceWithInitialValue(reduceFn, arr, initialValue) {
+	arr = arr || [];
 	return arr.reduce(reduceFn, initialValue);
 });
 
@@ -179,24 +188,28 @@ UI.registerHelper('reduceWithInitialValue', function reduceWithInitialValue(redu
 // Does filtering with a parameterized function
 // equivalent to arr.filter(fn_p) where fn_p is fn(param, .)
 UI.registerHelper('filterParameterized', function filterParameterized(filterFn, params, arr) {
+	arr = arr || [];
 	return arr.filter(x => filterFn(params, x));
 });
 
 // Does mapping with a parameterized function
 // equivalent to arr.map(fn_p) where fn_p is fn(param, .)
 UI.registerHelper('mapParameterized', function mapParameterized(mapFn, params, arr) {
+	arr = arr || [];
 	return arr.map(x => mapFn(params, x));
 });
 
 // Does reduction with a parameterized function
 // equivalent to arr.reduce(fn_p) where fn_p is fn(param, .)
 UI.registerHelper('reduceParameterized', function reduceParameterized(reduceFn, params, arr) {
+	arr = arr || [];
 	return arr.reduce((currVal, nextVal, index, array) => reduceFn(params, currVal, nextVal, index, array));
 });
 
 // Does reduction with a parameterized function and an initial value
 // equivalent to arr.reduce(fn_p) where fn_p is fn(param, .)
 UI.registerHelper('reduceParameterizedWithInitialValue', function reduceParameterizedWithInitialValue(reduceFn, params, arr, initialValue) {
+	arr = arr || [];
 	return arr.reduce((currVal, nextVal, index, array) => reduceFn(params, currVal, nextVal, index, array), initialValue);
 });
 
@@ -248,6 +261,7 @@ function makeId(o) {
 // Iterate over with {{#each enumerate someArray}}
 // Generates an array of {idx: idx, value: value} items
 UI.registerHelper('enumerate', function enumerate(arr) {
+	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return {
 			idx: idx,
@@ -261,6 +275,7 @@ UI.registerHelper('enumerate', function enumerate(arr) {
 // Iterate over with {{#each enumerateNoId someArray}}
 // Generates an array of {idx: idx, value: value} items
 UI.registerHelper('enumerateNoId', function enumerate(arr) {
+	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return {
 			idx: idx,
@@ -273,6 +288,7 @@ UI.registerHelper('enumerateNoId', function enumerate(arr) {
 // Iterate over with {{#each enumerateWithAddedContext someArray context}}
 // Generates an array of {idx: idx, value: value, context: context} items
 UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContext(arr, context) {
+	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return {
 			idx: idx,
@@ -288,6 +304,7 @@ UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContex
 // Generates an array of {idx: idx, value: value, ...} items extended
 // by the given context
 UI.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByContext(arr, context) {
+	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return _.extend({
 			_id: makeId(idx + "_" + makeId(item))
@@ -303,6 +320,7 @@ UI.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByCo
 // Generates an array of {idx: idx, value: value, ...} items extended
 // by the given context (allows selection of names of idx field and item field)
 UI.registerHelper('enumerateAndExtendByContextCustom', function enumerateAndExtendByContextCustom(arr, context, idxField, valueField) {
+	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return _.extend({
 			_id: makeId(idx + "_" + makeId(item))
