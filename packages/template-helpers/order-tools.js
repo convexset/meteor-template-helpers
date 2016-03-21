@@ -50,27 +50,28 @@ compareGeneral = function compareGeneral(v1, v2) {
 	// console.log(v1, v2, '|', typeof v1, typeof v2);
 
 	if (typeof v1 !== typeof v2) {
+		return -1;
+	}
+
+	if (v1 === v2) {
 		return 0;
 	}
 
 	if ((typeof v1 === "number") && (typeof v2 === "number")) {
-		return v1 - v2;
+		return v1 < v2 ? -1 : 1;
 	}
 
 	if ((typeof v1 === "boolean") && (typeof v2 === "boolean")) {
 		if (v1 && !v2) {
 			return 1;
 		}
-		if (v1 === v2) {
-			return 0;
-		}
 		if (v2 && !v1) {
 			return -1;
 		}
 	}
 
-	if ((v1 instanceof Date) && (v2  instanceof Date)) {
-		return v1.getTime() - v2.getTime();
+	if ((v1 instanceof Date) && (v2 instanceof Date)) {
+		return compareGeneral(v1.getTime(), v2.getTime());
 	}
 
 	if ((typeof v1 === "string") && (typeof v2 === "string")) {
