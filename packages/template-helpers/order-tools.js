@@ -39,9 +39,10 @@ function stringToArrayOfCharCodes(s) {
 
 /*
 	Compares objects (recursively)
-	 - Numbers: v1 - v2
-	 - Booleans: true, false ---> 1
-	 - Date: later > older
+	 - === Equality: 0	
+	 - Numbers: v1 < v2 ? -1 : 1
+	 - Booleans: (false, true) --> -1; (true, false) --> 1 
+	 - Date: numerical compare of dt.getTime()
 	 - Arrays in lexicographic order
 	 - Strings: converted to arrays of char codes
 	 - Objects: in (alphabetical) property order
@@ -93,11 +94,11 @@ compareGeneral = function compareGeneral(v1, v2) {
 	}
 
 	var properties = [];
-	for (var k in v1) {
-		if (v1.hasOwnProperty(k) && v2.hasOwnProperty(k)) {
+	Object.keys(v1).forEach(function() {
+		if (v2.hasOwnProperty(k)) {
 			properties.push(k);
 		}
-	}
+	});
 	properties.sort();
 	for (idx = 0; idx < properties.length; idx++) {
 		result = compareGeneral(v1[properties[idx]], v2[properties[idx]]);
