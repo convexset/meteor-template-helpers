@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'convexset:template-helpers',
-	version: '0.1.18',
+	version: '0.1.18_1',
 	summary: 'Template-level manipulation tools (such as python-style \"enumerate\" for collections and \"logic\").',
 	git: 'https://github.com/convexset/meteor-template-helpers',
 	documentation: '../../README.md'
@@ -9,9 +9,10 @@ Package.describe({
 Package.onUse(function(api) {
 	api.versionsFrom('1.2.0.2');
 	api.use([
-		'ecmascript', 'underscore', 'blaze', 'ejson',
+		'ecmascript', 'blaze', 'ejson',
 		'jparker:crypto-core@0.1.0',
 		'jparker:crypto-sha1@0.1.0',
+		'tmeasday:check-npm-versions@0.3.1'
 	], 'client');
 	api.addFiles([
 		'order-tools.js',
@@ -27,7 +28,7 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
 	api.use(['tinytest', 'test-helpers'], 'client');
 	api.use([
-		'ecmascript', 'mongo', 'tracker', 'underscore', 'jquery',
+		'ecmascript', 'mongo', 'tracker', 'jquery',
 		'templating', 'spacebars',
 		'convexset:template-helpers'
 	], 'client');

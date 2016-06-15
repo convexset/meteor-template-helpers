@@ -1,5 +1,12 @@
 /* global compareGeneral: true */
 
+import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
+checkNpmVersions({
+  'underscore' : '^1.8.3',
+});
+const _ = require('underscore');
+
+
 // Generates argument concatenators
 // Takes 0 to 100 arguments and returns an array
 // e.g.: arrayify5Args x1 x2 x3 x4 x5 ---> [x1, x2, x3, x4, x5]

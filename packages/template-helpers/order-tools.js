@@ -1,6 +1,13 @@
 /* global TemplateHelpers: true */
 /* global compareGeneral: true */
 
+import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
+checkNpmVersions({
+  'underscore' : '^1.8.3',
+});
+const _ = require('underscore');
+
+
 // Greater than less than and so on
 UI.registerHelper('greaterThan', function(v1, v2) {
 	// console.log('greaterThan', v1, v2);
@@ -94,7 +101,7 @@ compareGeneral = function compareGeneral(v1, v2) {
 	}
 
 	var properties = [];
-	Object.keys(v1).forEach(function() {
+	Object.keys(v1).forEach(function(k) {
 		if (v2.hasOwnProperty(k)) {
 			properties.push(k);
 		}
@@ -108,7 +115,7 @@ compareGeneral = function compareGeneral(v1, v2) {
 	}
 
 	return 0;
-}
+};
 
 // Export
 if (typeof TemplateHelpers === "undefined") {
