@@ -26,6 +26,26 @@ See the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit l
 
 This is available as [`convexset:template-helpers`](https://atmospherejs.com/convexset/template-helpers) on [Atmosphere](https://atmospherejs.com/). (Install with `meteor add convexset:template-helpers`.)
 
+If you get an error message like:
+```
+WARNING: npm peer requirements not installed:
+ - package-utils@^0.2.1 not installed.
+          
+Read more about installing npm peer dependencies:
+  http://guide.meteor.com/using-packages.html#peer-npm-dependencies
+```
+It is because, by design, the package does not include instances of these from `npm` to avoid repetition. (In this case, `meteor npm install --save package-utils`.)
+
+See [this](http://guide.meteor.com/using-packages.html#peer-npm-dependencies) or [this](https://atmospherejs.com/tmeasday/check-npm-versions) for more information.
+
+Now, if you see a message like
+```
+WARNING: npm peer requirements not installed:
+underscore@1.5.2 installed, underscore@^1.8.3 needed
+```
+it is because you or something you are using is using Meteor's cruddy old `underscore` package. Install a new version from `npm`. (And, of course, you may use the `npm` version in a given scope via `require("underscore")`.)
+
+
 ## Usage
 
 First have a look at the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should make things clear.
