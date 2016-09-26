@@ -35,20 +35,25 @@ Blaze.TemplateInstance.prototype.parentTemplate = function(levels, show_trace) {
 
 // Allow Template.instance() to be accessible and point to template instance
 // and call with given context
-Blaze.TemplateInstance.prototype.callFunctionWithTemplateContext = function callFunctionWithTemplateContext(fn, context, ...args) {
-	var instance = this;
-	var currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
-	Template._currentTemplateInstanceFunc = () => instance;
-	fn.apply((!!context) ? context : instance, args);
-	Template._currentTemplateInstanceFunc = currTemplateInstanceFunc;
+Blaze.TemplateInstance.prototype.callFunctionWithTemplateContext = function callFunctionWithTemplateContext(fnOrFuncAndElem, context, ...args) {
+	return this.applyFunctionWithTemplateContext(fnOrFuncAndElem, context, args);
 };
 
 // Allow Template.instance() to be accessible and point to template instance
 // and apply with given context
-Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function applyFunctionWithTemplateContext(fn, context, args) {
+Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function applyFunctionWithTemplateContext(fnOrFuncAndElem, context, args) {
 	var instance = this;
-	var currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
-	Template._currentTemplateInstanceFunc = () => instance;
-	fn.apply((!!context) ? context : instance, args);
-	Template._currentTemplateInstanceFunc = currTemplateInstanceFunc;
+
+	const fn = (typeof fnOrFuncAndElem === 'function') ? fnOrFuncAndElem : fnOrFuncAndElem.func;
+	const elem = (typeof fnOrFuncAndElem === 'function') ? null : instance.$(fnOrFuncAndElem.elemOrSelector)[0];
+
+	const view = (elem && Blaze.getView(elem)) || instance.view;
+
+	return Blaze._withCurrentView(view, () => {
+		var currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
+		Template._currentTemplateInstanceFunc = () => instance;
+		var result = fn.apply((!!context) ? context : instance, args);
+		Template._currentTemplateInstanceFunc = currTemplateInstanceFunc;
+		return result;
+	});
 };
