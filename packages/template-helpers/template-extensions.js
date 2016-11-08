@@ -1,27 +1,30 @@
+import { Blaze } from 'meteor/blaze';
+import { Template } from 'meteor/templating';
+
+const _ = require('underscore');
+
+/* eslint-disable no-console */
+
 // Get the parent template instance
 // @param {Number} [levels] How many levels to go up. Default is 1
 // @returns {Blaze.TemplateInstance}
 
-Blaze.TemplateInstance.prototype.parentTemplate = function(levels, show_trace) {
+Blaze.TemplateInstance.prototype.parentTemplate = function(levels = 1, showTrace) {
 	// Blaze.currentView is not usable, otherwise xxx.parentTemplate().parentTemplate() fails
-	var view = this.view;
-	if (typeof levels === "undefined") {
-		levels = 1;
-	}
-
+	let view = this.view;
 	if (!view) {
 		return null;
 	}
-	var init_view_name = view.name;
+	const initViewName = view.name;
 
 	while (!!view.parentView) {
-		if (!!show_trace) {
-			console.log(init_view_name, '-->', view.name, 'at level', levels);
+		if (!!showTrace) {
+			console.log(`${initViewName} --> ${view.name} at level ${levels}`);
 		}
-		if (view.name.substring(0, 9) === "Template.") {
+		if (view.name.substring(0, 9) === 'Template.') {
 			levels -= 1;
 			if (levels < 0) {
-				if (!!show_trace) {
+				if (!!showTrace) {
 					console.log('Done');
 				}
 				return view.templateInstance();
@@ -42,18 +45,23 @@ Blaze.TemplateInstance.prototype.callFunctionWithTemplateContext = function call
 // Allow Template.instance() to be accessible and point to template instance
 // and apply with given context
 Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function applyFunctionWithTemplateContext(fnOrFuncAndElem, context, args) {
-	var instance = this;
+	const instance = this;
 
-	const fn = (typeof fnOrFuncAndElem === 'function') ? fnOrFuncAndElem : fnOrFuncAndElem.func;
-	const elem = (typeof fnOrFuncAndElem === 'function') ? null : instance.$(fnOrFuncAndElem.elemOrSelector)[0];
+	const fn = _.isFunction(fnOrFuncAndElem) ? fnOrFuncAndElem : fnOrFuncAndElem.func;
+	const elem = _.isFunction(fnOrFuncAndElem) ? null : instance.$(fnOrFuncAndElem.elemOrSelector)[0];
 
 	const view = (elem && Blaze.getView(elem)) || instance.view;
 
 	return Blaze._withCurrentView(view, () => {
-		var currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
+		const currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
 		Template._currentTemplateInstanceFunc = () => instance;
-		var result = fn.apply((!!context) ? context : instance, args);
-		Template._currentTemplateInstanceFunc = currTemplateInstanceFunc;
+
+		let result;
+		try {
+			result = fn.apply(!!context ? context : instance, args);
+		} finally {
+			Template._currentTemplateInstanceFunc = currTemplateInstanceFunc;
+		}
 		return result;
 	});
 };

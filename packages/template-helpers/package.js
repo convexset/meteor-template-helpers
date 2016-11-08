@@ -1,7 +1,7 @@
 Package.describe({
 	// [validatis:stack]
 	name: 'convexset:template-helpers',
-	version: '0.1.19',
+	version: '0.1.19_1',
 	summary: 'Template-level manipulation tools (such as python-style \"enumerate\" for collections and \"logic\").',
 	git: 'https://github.com/convexset/meteor-template-helpers',
 	documentation: '../../README.md'
@@ -10,11 +10,12 @@ Package.describe({
 Package.onUse(function(api) {
 	api.versionsFrom('1.2.0.2');
 	api.use([
-		'ecmascript', 'blaze', 'ejson',
+		'ecmascript', 'blaze', 'ejson', 'templating',
 		'jparker:crypto-core@0.1.0',
 		'jparker:crypto-sha1@0.1.0',
 		'tmeasday:check-npm-versions@0.3.1'
 	], 'client');
+
 	api.addFiles([
 		'order-tools.js',
 	], 'client');
