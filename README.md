@@ -191,3 +191,18 @@ The helpers use `compareGeneral(v1, v2)` (also exposed via `TemplateHelpers.comp
 `Blaze.TemplateInstance.prototype.callFunctionWithTemplateContext = function(fn, context, arg1, arg2, ...)`: call function `fn` with context `context` and arguments `arg1`, `arg2`, ..., with `Template.instance()` accessible and pointing to current template instance.
 
 `Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function(fn, context, args)`: apply function `fn` with context `context` and arguments `args`, with `Template.instance()` accessible and pointing to current template instance.
+
+`Blaze.TemplateInstance.prototype._lookup = function _lookup(symbolName)`: Perform a lookup on a Template returns. Lookup Order:
+
+ 1. Parent
+ 2. Local Helper
+ 3. Lexical Binding
+ 4. Scope Binding
+ 5. Template by Name
+ 6. Data Context
+
+`Blaze.TemplateInstance.prototype.lookup = function lookup(symbolName, arg1, arg2, ...)`: Like `_lookup` but calls functions with arguments if they turn up (bound to the data context as done with helpers)
+
+`Blaze._getScope()`: Reactively obtains all visible scope variables with respect to the current view. Returns null if there is no current view, and an object with names of scope variables as keys along with the corresponding values (as values).
+
+`Blaze._getScopeVariable(name)`: Reactively gets, by name, a value that is scoped to the current template through a `#let` or `#each-in` block. Returns null if there is no current view, and undefined if the no such name is in visible in the scope. Use within template code if needed, such as to figure out what `@index` is in an `#each-in` block.

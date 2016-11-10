@@ -50,7 +50,9 @@ Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function app
 	const fn = _.isFunction(fnOrFuncAndElem) ? fnOrFuncAndElem : fnOrFuncAndElem.func;
 	const elem = _.isFunction(fnOrFuncAndElem) ? null : instance.$(fnOrFuncAndElem.elemOrSelector)[0];
 
-	const view = (elem && Blaze.getView(elem)) || instance.view;
+	const hasAncestorView = !!Blaze.currentView && Blaze.currentView._hasAncestorView(this.view);
+	const defaultView = hasAncestorView ? Blaze.currentView : this.view;
+	const view = (elem && Blaze.getView(elem)) || defaultView;
 
 	return Blaze._withCurrentView(view, () => {
 		const currTemplateInstanceFunc = Template._currentTemplateInstanceFunc;
@@ -64,4 +66,160 @@ Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function app
 		}
 		return result;
 	});
+};
+
+Object.defineProperty(Blaze.View.prototype, '_isTemplateView', {
+	get: function getIsTemplateView() {
+		return this._templateInstance && ((this.name === 'body') || (this.name.split('.')[0] === 'Template'));
+	}
+});
+
+Object.defineProperty(Blaze.View.prototype, '_closestAncestorWithTemplate', {
+	get: function getClosestTemplateAncestor() {
+		let current = this;
+		while (!!current.parentView && !current._isTemplateView) {
+			current = current.parentView;
+		}
+		return current._isTemplateView ? current : null;
+	}
+});
+
+Object.defineProperty(Blaze.View.prototype, '_closestAncestorWithTemplate_inclAllSorts', {
+	get: function getClosestTemplateAncestorInclAllSorts() {
+		let current = this;
+		while (!!current.parentView && !current._templateInstance) {
+			current = current.parentView;
+		}
+		return current._templateInstance ? current : null;
+	}
+});
+
+Blaze.View.prototype._hasAncestorView = function _hasAncestorView(view, stopAtTemplates = true) {
+	let current = this;
+	if (current === view) {
+		return true;
+	}
+
+	while (!!current.parentView && (!stopAtTemplates || !current._isTemplateView)) {
+		current = current.parentView;
+		if (current === view) {
+			return true;
+		}
+	}
+	return false;
+};
+
+// Like _lookup but calls functions with arguments if they turn up
+// Scope -> ? Parent -> Local Helper -> "Lexical Binding" -> ? Template by Name-> Data Context
+Blaze.TemplateInstance.prototype._lookup = function _lookup(symbolName, ...args) {
+	return this.applyFunctionWithTemplateContext(() => {
+		const itemOrFunction = Blaze._iterativeLookup(symbolName);
+		if (_.isFunction(itemOrFunction)) {
+			return itemOrFunction.apply(Template.currentData(), args);
+		} else {
+			return itemOrFunction;
+		}
+	});
+};
+
+
+const mayMoveUpViewTree = view => !!view.parentView && (!view.parentView.__startsNewLexicalScope || (!!view.parentView.parentView && view.parentView.parentView.__childDoesntStartNewLexicalScope));
+
+
+/**
+ * @summary Reactively obtains all visible scope variables with respect to the current view. Returns null if there is no current view, and an object with names of scope variables as keys along with the corresponding values (as values).
+ * @locus Client
+ * @param {Blaze.View|DOMElement} [elemOrView] Optional.  The view or element. Defaults to current view if not specified
+ * @returns {Object|null} The current scope as a dictionary (object) or null if there is no current view
+ */
+Blaze._getScope = function _getScope(elemOrView) {
+	const view = ((elemOrView instanceof Blaze.View) && elemOrView) || (elemOrView && Blaze.getView(elemOrView)) || Blaze.currentView;
+	if (!view) {
+		return null;
+	}
+
+	let scopeContent = arguments[1];
+	if (!scopeContent) {
+		scopeContent = {};
+	}
+
+	// populate content with scope bindings where available and not shadowed
+	Object.keys(view._scopeBindings || {}).forEach(function addToScopeContent(k) {
+		if (!scopeContent[k]) {
+			scopeContent[k] = view._scopeBindings[k].get();
+		}
+	});
+
+	// move up view tree; stop at state of new lexical scope
+	if (mayMoveUpViewTree(view)) {
+		return _getScope(view.parentView, scopeContent);
+	} else {
+		return scopeContent;
+	}
+};
+
+
+/**
+ * @summary Reactively gets, by name, a value that is scoped to the current template through a #let or #each-in block. Returns null if there is no current view, and undefined if the no such name is in visible in the scope.
+ * @locus Client
+ * @param {String} [name] Optional.  The name of the scope variable.
+ * @param {Blaze.View|DOMElement} [elemOrView] Optional.  The view or element. Defaults to current view if not specified
+ * @returns {value|null|undefined} The value of the named scope variable
+ */
+Blaze._getScopeVariable = function _getScopeVariable(name, elemOrView) {
+	const view = ((elemOrView instanceof Blaze.View) && elemOrView) || (elemOrView && Blaze.getView(elemOrView)) || Blaze.currentView;
+	if (!view) {
+		return null;
+	}
+
+	// get if available
+	if ((view._scopeBindings || {})[name]) {
+		return view._scopeBindings[name].get();
+	}
+
+	// move up view tree; stop at state of new lexical scope
+	if (mayMoveUpViewTree(view)) {
+		return _getScopeVariable(name, view.parentView);
+	} else {
+		return void 0; // forever undefined
+	}
+};
+
+/**
+ * @summary Reactively looks up symbols on view
+ * @locus Client
+ * @param {String} [name] Optional.  The name of the scope variable.
+ * @param {Blaze.View|DOMElement} [elemOrView] Optional.  The view or element. Defaults to current view if not specified
+ * @returns {value|null|undefined} The value of the item
+ */
+Blaze._iterativeLookup = function _iterativeLookup(name, elemOrView, initView) {
+	const view = ((elemOrView instanceof Blaze.View) && elemOrView) || (elemOrView && Blaze.getView(elemOrView)) || Blaze.currentView;
+	if (!view) {
+		return null;
+	}
+
+	// ***********
+	// How to add args???
+	// ***********
+
+	// get if available
+	if ((view._scopeBindings || {})[name]) {
+		return view._scopeBindings[name].get();
+	}
+
+	// get if available
+	const lookupValue = Blaze._withCurrentView(initView || view, () => {
+		const itemOrFunction = view.lookup(name);
+		return _.isFunction(itemOrFunction) ? itemOrFunction() : itemOrFunction;
+	});
+	if (!!lookupValue) {
+		return lookupValue;
+	}
+
+	// move up view tree; stop at state of new lexical scope
+	if (mayMoveUpViewTree(view)) {
+		return _iterativeLookup(name, view.parentView, initView || view);
+	} else {
+		return void 0; // forever undefined
+	}
 };
