@@ -122,15 +122,24 @@ The helpers use `compareGeneral(v1, v2)` (also exposed via `TemplateHelpers.comp
 
 ### Object Manipulation
 
+`o(keyName, value)`: returns `{ [keyName]: value }`
+
+`combineObjects(o1, o2, ...)`: returns `_.extend({}, o1, o2, ...)` see [this](http://underscorejs.org/#extend)
+
+**Example**: `{{combineObjects (o 'name' user) (o 'id' 11232312)}}` returns `{name: user, id: 11232312}`
+
 `getProperty(propertyName, obj)`: returns the value of a property
 
 **Example**: `{{getProperty 'name' user}}` where `user` refers to a helper that returns `{name: 'bob', age: 8}` will render the text "bob".
 
-`appendContext(obj, context)`: behaves like `_.extend`, returns an object equal to `obj` with the properties of `context` tacked on. (Does not mutate `obj`).
+`objToArray(o)`: identical to `repackageDictionaryAsArray`
+
+`repackageDictionaryAsArray(o)`: returns an array of `{key: keyName, value: value}` objects based on the (enumerable) properties of `o`.
+
+
+**(DEPRECATED)** `appendContext(obj, context)`: behaves like `_.extend`, returns an object equal to `obj` with the properties of `context` tacked on. (Does not mutate `obj`).
 
 **Example Use**: `{{someOtherHelper (appendContext baseObj context)}}`
-
-`repackageDictionaryAsArray(obj)`: returns an array of `{key: keyName, value: value}` objects based on the properties of `obj`.
 
 ### Array Manipulation
 

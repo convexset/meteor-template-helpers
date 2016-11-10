@@ -9,13 +9,27 @@ checkNpmVersions({
 const _ = require('underscore');
 
 
-// or
+// as array
 Template.registerHelper('asArray', function asArray() {
 	const args = _.toArray(arguments);
 	while (args[args.length - 1] instanceof Spacebars.kw) {
 		args.pop();
 	}
 	return args;
+});
+
+Template.registerHelper('o', function o(k, v) {
+	return {
+		[k]: v
+	};
+});
+
+Template.registerHelper('combineObjects', function combineObjects() {
+	const args = _.toArray(arguments);
+	while (args[args.length - 1] instanceof Spacebars.kw) {
+		args.pop();
+	}
+	return _.extend({}, ...args);
 });
 
 
@@ -27,18 +41,18 @@ _.range(0, 100 + 1).map(function(num_args) {
 	var fnName = 'arrayify' + num_args + 'Args';
 	var argList = _.range(num_args).map(idx => 'x' + idx);
 	var fnStr = "return [" + argList.join(', ') + "];";
-	UI.registerHelper(fnName, new Function(argList, fnStr));
+	Template.registerHelper(fnName, new Function(argList, fnStr));
 });
 // jshint evil: false
 
 // defaults
-UI.registerHelper('emptyArray', () => []);
-UI.registerHelper('emptyObject', () => ({}));
-UI.registerHelper('returnNull', () => null);
-UI.registerHelper('now', () => new Date());
+Template.registerHelper('emptyArray', () => []);
+Template.registerHelper('emptyObject', () => ({}));
+Template.registerHelper('returnNull', () => null);
+Template.registerHelper('now', () => new Date());
 
 // uniq
-UI.registerHelper('uniq', function uniq(arr) {
+Template.registerHelper('uniq', function uniq(arr) {
 	var uniqElems = [];
 	arr.forEach(function(elem) {
 		var match = false;
@@ -53,42 +67,42 @@ UI.registerHelper('uniq', function uniq(arr) {
 });
 
 // Join
-UI.registerHelper('join', function join(arr, sep) {
+Template.registerHelper('join', function join(arr, sep) {
 	return arr.join(sep);
 });
 
 // Split
-UI.registerHelper('split', function split(s, sep) {
+Template.registerHelper('split', function split(s, sep) {
 	return s.split(sep);
 });
 
 // Range
-UI.registerHelper('range', function range(num) {
+Template.registerHelper('range', function range(num) {
 	return _.range(num);
 });
 
 // Range
-UI.registerHelper('rangeStartToEnd', function rangeStartToEnd(start, end) {
+Template.registerHelper('rangeStartToEnd', function rangeStartToEnd(start, end) {
 	return _.range(start, end);
 });
 
 // Range
-UI.registerHelper('rangeStartToEndPlusStep', function rangeStartToEndPlusStep(start, end, step) {
+Template.registerHelper('rangeStartToEndPlusStep', function rangeStartToEndPlusStep(start, end, step) {
 	return _.range(start, end, step);
 });
 
 // First
-UI.registerHelper('first', function first(arr) {
+Template.registerHelper('first', function first(arr) {
 	return arr[0];
 });
 
 // Last
-UI.registerHelper('last', function last(arr) {
+Template.registerHelper('last', function last(arr) {
 	return arr[arr.length - 1];
 });
 
 // getElementAt
-UI.registerHelper('getElementAt', function getElementAt(arr, idx) {
+Template.registerHelper('getElementAt', function getElementAt(arr, idx) {
 	return arr[idx];
 });
 
@@ -103,22 +117,22 @@ function allIndicesOf(arr, v) {
 }
 
 // allIndicesOf
-UI.registerHelper('allIndicesOf', allIndicesOf);
+Template.registerHelper('allIndicesOf', allIndicesOf);
 
 // indexOf
-UI.registerHelper('indexOf', function indexOf(arr, v) {
+Template.registerHelper('indexOf', function indexOf(arr, v) {
 	var indices = allIndicesOf(arr, v);
 	return indices.length > 0 ? indices[0] : -1;
 });
 
 // contains
-UI.registerHelper('contains', function contains(arr, v) {
+Template.registerHelper('contains', function contains(arr, v) {
 	var indices = allIndicesOf(arr, v);
 	return indices.length > 0;
 });
 
 // clump
-UI.registerHelper('clump', function clump(arr, n) {
+Template.registerHelper('clump', function clump(arr, n) {
 	arr = arr || [];
 	var clumps = [];
 	var this_clump = [];
@@ -136,7 +150,7 @@ UI.registerHelper('clump', function clump(arr, n) {
 });
 
 // Flattens an array of arrays by concatenation
-UI.registerHelper('flatten', function flatten(arrayOfArrays) {
+Template.registerHelper('flatten', function flatten(arrayOfArrays) {
 	arrayOfArrays = arrayOfArrays || [];
 	return arrayOfArrays.reduce(function(currValue, nextValue) {
 		if (nextValue instanceof Array) {
@@ -150,14 +164,14 @@ UI.registerHelper('flatten', function flatten(arrayOfArrays) {
 
 
 // Length
-UI.registerHelper('length', function length(arr) {
+Template.registerHelper('length', function length(arr) {
 	arr = arr || [];
 	return Object.keys(arr).length;
 });
 
 
 // Flattens an array of arrays by concatenation
-UI.registerHelper('groupBy', function flatten(groupingFn, data) {
+Template.registerHelper('groupBy', function flatten(groupingFn, data) {
 	data = data || [];
 	var result = _.map(_.groupBy(data, groupingFn), function(data, key) {
 		return {
@@ -170,35 +184,35 @@ UI.registerHelper('groupBy', function flatten(groupingFn, data) {
 
 
 // Generates an of objects extended with context
-UI.registerHelper('appendContext', function appendContext(obj, context) {
+Template.registerHelper('appendContext', function appendContext(obj, context) {
 	var o = _.extend({}, obj);
 	return _.extend(o, context);
 });
 
 
 // Does filtering
-UI.registerHelper('filter', function filter(filterFn, arr) {
+Template.registerHelper('filter', function filter(filterFn, arr) {
 	arr = arr || [];
 	return arr.filter(filterFn);
 });
 
 
 // Does mapping
-UI.registerHelper('map', function map(mapFn, arr) {
+Template.registerHelper('map', function map(mapFn, arr) {
 	arr = arr || [];
 	return arr.map(mapFn);
 });
 
 
 // Does reduction
-UI.registerHelper('reduce', function reduce(reduceFn, arr) {
+Template.registerHelper('reduce', function reduce(reduceFn, arr) {
 	arr = arr || [];
 	return arr.reduce(reduceFn);
 });
 
 
 // Does reduction with initial value
-UI.registerHelper('reduceWithInitialValue', function reduceWithInitialValue(reduceFn, arr, initialValue) {
+Template.registerHelper('reduceWithInitialValue', function reduceWithInitialValue(reduceFn, arr, initialValue) {
 	arr = arr || [];
 	return arr.reduce(reduceFn, initialValue);
 });
@@ -206,49 +220,49 @@ UI.registerHelper('reduceWithInitialValue', function reduceWithInitialValue(redu
 
 // Does filtering with a parameterized function
 // equivalent to arr.filter(fn_p) where fn_p is fn(param, .)
-UI.registerHelper('filterParameterized', function filterParameterized(filterFn, params, arr) {
+Template.registerHelper('filterParameterized', function filterParameterized(filterFn, params, arr) {
 	arr = arr || [];
 	return arr.filter(x => filterFn(params, x));
 });
 
 // Does mapping with a parameterized function
 // equivalent to arr.map(fn_p) where fn_p is fn(param, .)
-UI.registerHelper('mapParameterized', function mapParameterized(mapFn, params, arr) {
+Template.registerHelper('mapParameterized', function mapParameterized(mapFn, params, arr) {
 	arr = arr || [];
 	return arr.map(x => mapFn(params, x));
 });
 
 // Does reduction with a parameterized function
 // equivalent to arr.reduce(fn_p) where fn_p is fn(param, .)
-UI.registerHelper('reduceParameterized', function reduceParameterized(reduceFn, params, arr) {
+Template.registerHelper('reduceParameterized', function reduceParameterized(reduceFn, params, arr) {
 	arr = arr || [];
 	return arr.reduce((currVal, nextVal, index, array) => reduceFn(params, currVal, nextVal, index, array));
 });
 
 // Does reduction with a parameterized function and an initial value
 // equivalent to arr.reduce(fn_p) where fn_p is fn(param, .)
-UI.registerHelper('reduceParameterizedWithInitialValue', function reduceParameterizedWithInitialValue(reduceFn, params, arr, initialValue) {
+Template.registerHelper('reduceParameterizedWithInitialValue', function reduceParameterizedWithInitialValue(reduceFn, params, arr, initialValue) {
 	arr = arr || [];
 	return arr.reduce((currVal, nextVal, index, array) => reduceFn(params, currVal, nextVal, index, array), initialValue);
 });
 
 // Generates an of objects extended with context
-UI.registerHelper('getProperty', function getProperty(propertyName, obj) {
+Template.registerHelper('getProperty', function getProperty(propertyName, obj) {
 	return (!!obj && (typeof obj[propertyName] !== "undefined")) ? obj[propertyName] : null;
 });
 
 // returns in sorted order
-UI.registerHelper('sort', function(arr) {
+Template.registerHelper('sort', function(arr) {
 	return _.isArray(arr) ? arr.sort(compareGeneral) : arr;
 });
 
 // reverse
-UI.registerHelper('reverse', function(arr) {
+Template.registerHelper('reverse', function(arr) {
 	return _.isArray(arr) ? arr.reverse : [];
 });
 
 // returns in sorted order by some property
-UI.registerHelper('sortBy', function(prop, arr) {
+Template.registerHelper('sortBy', function(prop, arr) {
 	return _.isArray(arr) ? arr.sort((x, y) => compareGeneral(x[prop], y[prop])) : arr;
 });
 
@@ -256,19 +270,11 @@ UI.registerHelper('sortBy', function(prop, arr) {
 // Iterate over with {{#each repackageDictionaryAsArray someDictionary}}
 // Of course, dictionary ~= object and obviously the original committer
 // likes Python.
-UI.registerHelper('repackageDictionaryAsArray', function repackageDictionaryAsArray(obj) {
-	var result = [];
-	for (var key in obj) {
-		if (obj.hasOwnProperty(key)) {
-			// console.log('[repackageDictionaryAsArray]', key, obj[key]);
-			result.push({
-				key: key,
-				value: obj[key]
-			});
-		}
-	}
-	return result;
-});
+function repackageDictionaryAsArray(o) {
+	return _.map(o, (v, k) => ({ key: k, value: v }));
+}
+Template.registerHelper('repackageDictionaryAsArray', repackageDictionaryAsArray);
+Template.registerHelper('objToArray', repackageDictionaryAsArray);
 
 
 function makeId(o) {
@@ -279,7 +285,7 @@ function makeId(o) {
 
 // Iterate over with {{#each enumerate someArray}}
 // Generates an array of {idx: idx, value: value} items
-UI.registerHelper('enumerate', function enumerate(arr) {
+Template.registerHelper('enumerate', function enumerate(arr) {
 	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return {
@@ -293,7 +299,7 @@ UI.registerHelper('enumerate', function enumerate(arr) {
 
 // Iterate over with {{#each enumerateNoId someArray}}
 // Generates an array of {idx: idx, value: value} items
-UI.registerHelper('enumerateNoId', function enumerate(arr) {
+Template.registerHelper('enumerateNoId', function enumerate(arr) {
 	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return {
@@ -306,7 +312,7 @@ UI.registerHelper('enumerateNoId', function enumerate(arr) {
 
 // Iterate over with {{#each enumerateWithAddedContext someArray context}}
 // Generates an array of {idx: idx, value: value, context: context} items
-UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContext(arr, context) {
+Template.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContext(arr, context) {
 	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return {
@@ -322,7 +328,7 @@ UI.registerHelper('enumerateWithAddedContext', function enumerateWithAddedContex
 // Iterate over with {{#each enumerateAndExtendByContext someArray context}}
 // Generates an array of {idx: idx, value: value, ...} items extended
 // by the given context
-UI.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByContext(arr, context) {
+Template.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByContext(arr, context) {
 	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return _.extend({
@@ -338,7 +344,7 @@ UI.registerHelper('enumerateAndExtendByContext', function enumerateAndExtendByCo
 // Iterate over with {{#each enumerateAndExtendByContext someArray context}}
 // Generates an array of {idx: idx, value: value, ...} items extended
 // by the given context (allows selection of names of idx field and item field)
-UI.registerHelper('enumerateAndExtendByContextCustom', function enumerateAndExtendByContextCustom(arr, context, idxField, valueField) {
+Template.registerHelper('enumerateAndExtendByContextCustom', function enumerateAndExtendByContextCustom(arr, context, idxField, valueField) {
 	arr = arr || [];
 	return _.map(arr, function(item, idx) {
 		return _.extend({
