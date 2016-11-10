@@ -1,36 +1,37 @@
 /* global TemplateHelpers: true */
 /* global compareGeneral: true */
 
+import { Template } from 'meteor/templating';
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 checkNpmVersions({
-  'underscore' : '^1.8.3',
+	'underscore': '^1.8.3',
 });
 const _ = require('underscore');
 
 
 // Greater than less than and so on
-UI.registerHelper('greaterThan', function(v1, v2) {
+Template.registerHelper('greaterThan', function(v1, v2) {
 	// console.log('greaterThan', v1, v2);
 	return compareGeneral(v1, v2) > 0;
 });
 
-UI.registerHelper('greaterThanOrEqualTo', function(v1, v2) {
+Template.registerHelper('greaterThanOrEqualTo', function(v1, v2) {
 	// console.log('greaterThanOrEqualTo', v1, v2);
 	return compareGeneral(v1, v2) >= 0;
 });
 
-UI.registerHelper('equalTo', function(v1, v2) {
+Template.registerHelper('equalTo', function(v1, v2) {
 	// console.log('equalTo', v1, v2);
 	// return compareGeneral(v1, v2) === 0;
 	return _.isEqual(v1, v2);
 });
 
-UI.registerHelper('lessThanOrEqualTo', function(v1, v2) {
+Template.registerHelper('lessThanOrEqualTo', function(v1, v2) {
 	// console.log('lessThanOrEqualTo', v1, v2);
 	return compareGeneral(v1, v2) < 0;
 });
 
-UI.registerHelper('lessThan', function(v1, v2) {
+Template.registerHelper('lessThan', function(v1, v2) {
 	// console.log('lessThan', v1, v2);
 	return compareGeneral(v1, v2) <= 0;
 });

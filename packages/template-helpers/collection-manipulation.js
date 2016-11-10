@@ -1,10 +1,22 @@
 /* global compareGeneral: true */
 
+import { Template } from 'meteor/templating';
+import { Spacebars } from 'meteor/spacebars';
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 checkNpmVersions({
-  'underscore' : '^1.8.3',
+	'underscore': '^1.8.3',
 });
 const _ = require('underscore');
+
+
+// or
+Template.registerHelper('asArray', function asArray() {
+	const args = _.toArray(arguments);
+	while (args[args.length - 1] instanceof Spacebars.kw) {
+		args.pop();
+	}
+	return args;
+});
 
 
 // Generates argument concatenators

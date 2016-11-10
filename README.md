@@ -6,21 +6,22 @@ See the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit l
 
 ## Table of Contents
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+<!-- MarkdownTOC -->
 
 - [Install](#install)
-- [Usage](#usage)
-  - [Object Manipulation](#object-manipulation)
-  - [Array Manipulation](#array-manipulation)
-  - [Others](#others)
-  - [Filter, Map, Reduce](#filter-map-reduce)
-- [Logic](#logic)
-- [Order Tools](#order-tools)
-- [Template Extensions](#template-extensions)
+- [`Blaze.View` Extensions](#blazeview-extensions)
+- [`Blaze.TemplateInstance` Extensions](#blazetemplateinstance-extensions)
+- [Helpers](#helpers)
+	- [Logic](#logic)
+	- [Order](#order)
+	- [Object Manipulation](#object-manipulation)
+	- [Array Manipulation](#array-manipulation)
+		- [Deprecated](#deprecated)
+	- [Others](#others)
+	- [Filter, Map, Reduce](#filter-map-reduce)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- /MarkdownTOC -->
+
 
 ## Install
 
@@ -29,12 +30,12 @@ This is available as [`convexset:template-helpers`](https://atmospherejs.com/con
 If you get an error message like:
 ```
 WARNING: npm peer requirements not installed:
- - package-utils@^0.2.1 not installed.
+ - underscore@^1.8.3 not installed.
           
 Read more about installing npm peer dependencies:
   http://guide.meteor.com/using-packages.html#peer-npm-dependencies
 ```
-It is because, by design, the package does not include instances of these from `npm` to avoid repetition. (In this case, `meteor npm install --save package-utils` will deal with the problem.)
+It is because, by design, the package does not include instances of these from `npm` to avoid repetition. (In this case, `meteor npm install --save underscore` will deal with the problem.)
 
 See [this](http://guide.meteor.com/using-packages.html#peer-npm-dependencies) or [this](https://atmospherejs.com/tmeasday/check-npm-versions) for more information.
 
@@ -46,9 +47,78 @@ underscore@1.5.2 installed, underscore@^1.8.3 needed
 it is because you or something you are using is using Meteor's cruddy old `underscore` package. Install a new version from `npm`. (And, of course, you may use the `npm` version in a given scope via `require("underscore")`.)
 
 
-## Usage
+## `Blaze.View` Extensions
 
-First have a look at the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should make things clear.
+`Blaze.View#_isTemplateView`: (getter) returns whether a view has an attached template instance (traditional ones, including `Template.body`)
+
+`Blaze.View#_closestAncestorWithTemplate`: (getter) returns the closest ancestor view with an attached template instance (traditional ones, including `Template.body`)
+
+`Blaze.View#_closestAncestorWithTemplate_inclAllSorts`: (getter) returns the closest ancestor view with an attached template instance (all sorts ones, even `contentBlock`-types)
+
+`Blaze.View#_hasAncestorView(view, stopAtTemplates = true)`: returns whether `view` is an ancestor of the current view (if `stopAtTemplates` is `true`, the search will stop at views with attached Templates instances as defined by `Blaze.View#_isTemplateView`)
+
+`Blaze._getScope(elemOrView = null)`: Reactively obtains all visible scope variables with respect to the current view. Returns null if there is no current view, and an object with names of scope variables as keys along with the corresponding values (as values).
+
+`Blaze._getScopeVariable(name, elemOrView = null)`: Reactively gets, by name, a value that is scoped to the current template through a `#let` or `#each-in` block. Returns null if there is no current view, and undefined if the no such name is in visible in the scope. Use within template code if needed, such as to figure out what `@index` is in an `#each-in` block.
+
+`Blaze._iterativeLookup(name, { elemOrView } = {}, ...args)`: performs an iterative lookup on the current view of the specified element or view (`elemOrView`); calls functions with arguments `...args`; uses the following lookup order
+
+ 1. Scope Binding
+ 2. Parent (`../xxx`; pls. don't do this)
+ 3. Local Helper
+ 4. Lexical Binding
+ 5. Template by Name
+ 6. Data Context
+
+
+## `Blaze.TemplateInstance` Extensions
+
+`Blaze.TemplateInstance#parentTemplate(levels) { ... }`: returns the parent template `level` levels up. (Stolen from [here](http://stackoverflow.com/questions/27949407/how-to-get-the-parent-template-instance-of-the-current-template/27962713#27962713))
+
+`Blaze.TemplateInstance#callFunctionWithTemplateContext(fn, context, arg1, arg2, ...)`: call function `fn` with context `context` and arguments `arg1`, `arg2`, ..., with `Template.instance()` accessible and pointing to current template instance.
+
+`Blaze.TemplateInstance#applyFunctionWithTemplateContext(fn, context, args)`: apply function `fn` with context `context` and arguments `args`, with `Template.instance()` accessible and pointing to current template instance.
+
+`Blaze.TemplateInstance#iterativeLookup(symbolName, ...args)`: Like performs an iterative lookup on the view of the current template (see [`Blaze._iterativeLookup`](#blazeview-extensions) above)
+
+
+## Helpers
+
+First have a look at the examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)], which should give examples for using the helpers.
+
+### Logic
+
+Already, one can do `{{#if true}}True{{else}}erm...{{/if}}` and `{{#if false}}erm...{{else}}False{{/if}}`. Now, if one does not want to use `#unless`, there is:
+
+`not`: e.g.: `{{#if not true}}erm...{{else}}False{{/if}}`
+
+`ternary`: e.g.: `{{ternary predicate a b}}` returns `predicate ? a : b`
+
+`or`: e.g.: `{{or '55' false true}}` returns `'55'` (returns `false` if called with no arguments, as in "at least one of...")
+
+`and`: e.g.: `{{and true true true true}}` returns `true` and `{{and 'ss' false 88}}` returns `88` (returns `true` if called with no arguments, as in "all of")
+
+### Order
+
+Provides helpers that compare two values:
+- `greaterThan`
+- `greaterThanOrEqualTo`
+- `equalTo`
+- `lessThanOrEqualTo`
+- `lessThan`
+
+**Example**: The code `{{#if greaterThan 2 1}}2 > 1{{else}}Surprise!!{{/if}}` renders the text "2 > 1".
+
+The helpers use `compareGeneral(v1, v2)` (also exposed via `TemplateHelpers.compareGeneral`) which is a general comparator such that:
+- Numbers: v1 - v2 > 0 ---> true
+- Booleans: true > false
+- Date: later > older
+- Arrays ordered lexicographically (first index with inequality is determines outcome; else inconclusive/"equal")
+- Strings: converted to arrays of char codes and compared as arrays of numbers
+- Objects: common (own) properties ordered alphabetically and compared like an array of values
+
+**Example**: The code `{{#if greaterThan (arrayify2Args 1 'b') (arrayify2Args 1 'a')}}[1, 'b'] > [1, 'a']{{else}}Surprise!!{{/if}}` renders the text "[1, 'b'] > [1, 'a']".
+
 
 ### Object Manipulation
 
@@ -64,9 +134,9 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 
 ### Array Manipulation
 
-`arrayify0Args()` thru `arrayify100Args(x1, x2, ..., x100)`: takes in `n` arguments and returns an array of all `n` arguments. Paraphrasing immortal words: "100 parameters ought to be enough for anybody."
+**Note:** Deprecated helpers below.
 
-**Example**: `{{#each arrayify3Args 1 2 3}}{{this}} {{/each}}` renders the text "1 2 3".
+`asArray(x1, x2, ...)`: returns an array of the supplied arguments
 
 `first(arr)`: returns the first element of array `arr`
 
@@ -91,6 +161,14 @@ First have a look at the examples in `./mildly-horrifying-examples/` (just run m
 `flatten(arrayOfArrays)`: flattens an array of arrays by concatenation.
 
 **Example**: `{{#each flatten (arrayify3 (arrayify2Args 1 2) (arrayify2Args 3 4) 5)}}{{this}} {{/each}}` renders the text "1 2 3 4 5".
+
+#### Deprecated
+
+Use of `#let` and `#each-in` (and `@index`) renders these obsolete.
+
+`arrayify0Args()` thru `arrayify100Args(x1, x2, ..., x100)`: takes in `n` arguments and returns an array of all `n` arguments. Paraphrasing immortal words: "100 parameters ought to be enough for anybody."
+
+**Example**: `{{#each arrayify3Args 1 2 3}}{{this}} {{/each}}` renders the text "1 2 3".
 
 `length(arr)`: Provides the length of an array.
 
@@ -153,56 +231,3 @@ The parameterized versions, are equivalent to calling the non-parameterized vers
 
 
 See examples in `./mildly-horrifying-examples/` (just run meteor) [[rawgit link](https://rawgit.com/convexset/meteor-template-helpers/master/public/sample_output.html)] for greater clarity.
-
-## Logic
-
-Already, one can do `{{#if true}}True{{else}}erm...{{/if}}` and `{{#if false}}erm...{{else}}False{{/if}}`. Now, if one does not want to use `#unless`, there is:
-
-`not`: e.g.: `{{#if not true}}erm...{{else}}False{{/if}}`
-
-`ternary`: e.g.: `{{ternary predicate a b}}` returns `predicate ? a : b`
-
-## Order Tools
-
-Provides helpers that compare two values:
-- `greaterThan`
-- `greaterThanOrEqualTo`
-- `equalTo`
-- `lessThanOrEqualTo`
-- `lessThan`
-
-**Example**: The code `{{#if greaterThan 2 1}}2 > 1{{else}}Surprise!!{{/if}}` renders the text "2 > 1".
-
-The helpers use `compareGeneral(v1, v2)` (also exposed via `TemplateHelpers.compareGeneral`) which is a general comparator such that:
-- Numbers: v1 - v2 > 0 ---> true
-- Booleans: true > false
-- Date: later > older
-- Arrays ordered lexicographically (first index with inequality is determines outcome; else inconclusive/"equal")
-- Strings: converted to arrays of char codes and compared as arrays of numbers
-- Objects: common (own) properties ordered alphabetically and compared like an array of values
-
-**Example**: The code `{{#if greaterThan (arrayify2Args 1 'b') (arrayify2Args 1 'a')}}[1, 'b'] > [1, 'a']{{else}}Surprise!!{{/if}}` renders the text "[1, 'b'] > [1, 'a']".
-
-
-## Template Extensions
-
-`Blaze.TemplateInstance.prototype.parentTemplate = function(levels) { ... }`: returns the parent template `level` levels up. (Stolen from [here](http://stackoverflow.com/questions/27949407/how-to-get-the-parent-template-instance-of-the-current-template/27962713#27962713))
-
-`Blaze.TemplateInstance.prototype.callFunctionWithTemplateContext = function(fn, context, arg1, arg2, ...)`: call function `fn` with context `context` and arguments `arg1`, `arg2`, ..., with `Template.instance()` accessible and pointing to current template instance.
-
-`Blaze.TemplateInstance.prototype.applyFunctionWithTemplateContext = function(fn, context, args)`: apply function `fn` with context `context` and arguments `args`, with `Template.instance()` accessible and pointing to current template instance.
-
-`Blaze.TemplateInstance.prototype._lookup = function _lookup(symbolName)`: Perform a lookup on a Template returns. Lookup Order:
-
- 1. Parent
- 2. Local Helper
- 3. Lexical Binding
- 4. Scope Binding
- 5. Template by Name
- 6. Data Context
-
-`Blaze.TemplateInstance.prototype.lookup = function lookup(symbolName, arg1, arg2, ...)`: Like `_lookup` but calls functions with arguments if they turn up (bound to the data context as done with helpers)
-
-`Blaze._getScope()`: Reactively obtains all visible scope variables with respect to the current view. Returns null if there is no current view, and an object with names of scope variables as keys along with the corresponding values (as values).
-
-`Blaze._getScopeVariable(name)`: Reactively gets, by name, a value that is scoped to the current template through a `#let` or `#each-in` block. Returns null if there is no current view, and undefined if the no such name is in visible in the scope. Use within template code if needed, such as to figure out what `@index` is in an `#each-in` block.
