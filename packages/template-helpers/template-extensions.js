@@ -21,7 +21,7 @@ Blaze.TemplateInstance.prototype.parentTemplate = function(levels = 1, showTrace
 		if (!!showTrace) {
 			console.log(`${initViewName} --> ${view.name} at level ${levels}`);
 		}
-		if (view.name.substring(0, 9) === 'Template.') {
+		if ((view.name.substring(0, 9) === 'Template.') || (view.name === 'body')) {
 			levels -= 1;
 			if (levels < 0) {
 				if (!!showTrace) {
