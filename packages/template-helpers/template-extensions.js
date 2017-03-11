@@ -118,6 +118,32 @@ Blaze.TemplateInstance.prototype.lookup = function lookup(symbolName, ...args) {
 	});
 };
 
+// all nodes
+Object.defineProperty(Blaze.TemplateInstance.prototype, 'allNodes', {
+	get: function getAllNodes() {
+		const instance = this;
+		const firstNode = instance.view.firstNode();
+		const lastNode = instance.view.lastNode();
+
+		let node = firstNode;
+		const nodes = [];
+
+		while (!!node && (node !== lastNode)) {
+			node = node.nextSibling;
+			nodes.push(node);
+		}
+
+		return nodes;
+	}
+});
+
+// all elements
+Object.defineProperty(Blaze.TemplateInstance.prototype, 'allElements', {
+	get: function getAllElements() {
+		return this.allNodes.filter(x => x.nodeType === 1);
+	}
+});
+
 
 const inScopeWhenMovingUpViewTree = view => !!view.parentView && (!view.parentView.__startsNewLexicalScope || (!!view.parentView.parentView && view.parentView.parentView.__childDoesntStartNewLexicalScope));
 const mayMoveUpViewTree = view => !!view.parentView && !view._isTemplateView;
