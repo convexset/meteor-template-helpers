@@ -126,7 +126,7 @@ Object.defineProperty(Blaze.TemplateInstance.prototype, 'allNodes', {
 		const lastNode = instance.view.lastNode();
 
 		let node = firstNode;
-		const nodes = [];
+		const nodes = [firstNode];
 
 		while (!!node && (node !== lastNode)) {
 			node = node.nextSibling;
