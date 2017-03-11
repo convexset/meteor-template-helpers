@@ -81,6 +81,10 @@ it is because you or something you are using is using Meteor's cruddy old `under
 
 `Blaze.TemplateInstance#iterativeLookup(symbolName, ...args)`: Like performs an iterative lookup on the view of the current template (see [`Blaze._iterativeLookup`](#blazeview-extensions) above)
 
+`Blaze.TemplateInstance#allNodes()`: All DOM Nodes
+
+`Blaze.TemplateInstance#allElements()`: All DOM Nodes that are Elements (`nodeType=1`)
+
 
 ## Helpers
 
